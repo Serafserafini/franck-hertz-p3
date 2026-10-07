@@ -2,6 +2,7 @@ import { initialLang, setLang } from './i18n.js';
 import { initLevels } from './levels.js';
 import { initTube } from './tube.js';
 import { initCurve } from './curve.js';
+import { initMotion } from './motion.js';
 
 function boot() {
   setLang(initialLang());
@@ -15,6 +16,7 @@ function boot() {
   initLevels();
   initTube();
   initCurve();
+  initMotion();
 }
 
 boot();
