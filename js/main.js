@@ -6,6 +6,8 @@ import { initSweep } from './sweep.js';
 import { initNoGas } from './nogas.js';
 import { initWithGas } from './withgas.js';
 import { initPeaks } from './peaks.js';
+import { initGlow } from './glow.js';
+import { initMinima } from './minima.js';
 
 function boot() {
   setLang(initialLang());
@@ -25,6 +27,8 @@ function boot() {
   initNoGas();
   initWithGas();
   initPeaks();
+  initGlow();
+  initMinima();
 }
 
 boot();
