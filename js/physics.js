@@ -1,40 +1,19 @@
-// Physical constants and the gas/tube model used by the simulator.
+// Physical constants, gas data, level and orbital data and slider ranges of the analytic model.
 // No DOM access: everything here is a pure function or constant.
 
 export const K_B = 1.380649e-23; // J/K
 export const E_CHARGE = 1.602176634e-19; // C
 
-// Effective model parameters (tuned for plausible curves, not fitted to data).
-// dE: excitation energy (eV); sigma: effective collision cross-section (m^2);
-// pInel: probability that a collision above threshold is inelastic.
+// dE: excitation energy (eV) used by the model (Hg 6 1S0 -> 6 3P1, Ne spacing of the extrema).
 export const GAS = {
-  hg: { id: 'hg', dE: 4.9, sigma: 4e-19, pInel: 0.3 },
-  ne: { id: 'ne', dE: 19.0, sigma: 1e-19, pInel: 0.3 },
+  hg: { id: 'hg', dE: 4.9 },
+  ne: { id: 'ne', dE: 19.0 },
 };
-
-// Effective grid spacing G1-G2 (m).
-export const TUBE = { L: 1e-3 };
-
-// Neon tube: about 10 hPa at room temperature (fixed in the model).
-export const NE_FILL = { pressurePa: 1000, tempC: 20 };
 
 // log10(p/Pa) = A - B/T(K), linear fit to tabulated Hg vapour pressures, 100-200 degC.
 export function hgVaporPressure(tempC) {
   const T = tempC + 273.15;
   return Math.pow(10, 10.05 - 3163 / T);
-}
-
-export function numberDensity(pressurePa, tempK) {
-  return pressurePa / (K_B * tempK);
-}
-
-// Mean free path (m) of an electron between collisions, lambda = 1/(n sigma).
-export function meanFreePath(gasId, tempC) {
-  const gas = GAS[gasId];
-  if (!gas) throw new Error('unknown gas: ' + gasId);
-  const p = gasId === 'hg' ? hgVaporPressure(tempC) : NE_FILL.pressurePa;
-  const T = (gasId === 'hg' ? tempC : NE_FILL.tempC) + 273.15;
-  return 1 / (numberDensity(p, T) * gas.sigma);
 }
 
 export function thermalEnergyEV(tempK) {

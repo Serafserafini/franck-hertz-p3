@@ -1,8 +1,6 @@
 # Franck–Hertz (P3) — interactive introduction
 
-Bilingual (EN/DE) static page that explains the Franck–Hertz experiment: level ladder,
-tube and potentials, a Monte Carlo simulation of the I_A(U₂) curve, and how ΔE follows from
-the spacing of the extrema. No instrument operation, safety or grading content.
+Bilingual (EN/DE) static page that explains the Franck–Hertz experiment with closed-form theory (no Monte Carlo): levels and orbitals, tube and potentials, the experiment, the I_A(U₂) curve without and with gas, why there are several peaks, the glowing stripes and why the minima do not reach zero.
 
 ## Run
 ```bash
@@ -15,6 +13,7 @@ Any static host works (TUWEL link, TU webspace, GitHub Pages): upload the folder
 ```bash
 ./scripts/test.sh         # unit tests in headless Chrome (needs google-chrome)
 ./scripts/smoke.sh        # page-level smoke test, EN and DE
+./scripts/browser.sh      # server + debuggable Chrome, then: python3 scripts/cdp.py URL --eval JS --shot FILE
 ```
 
 ## Vendored libraries

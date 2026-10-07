@@ -1,6 +1,6 @@
 import { test, assert } from './harness.js';
 import {
-  GAS, LEVELS, hgVaporPressure, meanFreePath, thermalEnergyEV, wavelengthNm, boltzmannFactor,
+  GAS, LEVELS, hgVaporPressure, thermalEnergyEV, wavelengthNm, boltzmannFactor,
   LAMBDA_REF, lambdaOverL, DEFAULTS, RANGES, ORBITALS,
 } from '../js/physics.js';
 
@@ -12,24 +12,6 @@ test('Hg vapour pressure is in the table range at 150 and 190 degC', () => {
 test('Hg vapour pressure increases monotonically with T', () => {
   assert.ok(hgVaporPressure(150) < hgVaporPressure(170));
   assert.ok(hgVaporPressure(170) < hgVaporPressure(190));
-});
-
-test('mean free path shrinks as Hg temperature rises', () => {
-  assert.ok(meanFreePath('hg', 190) < meanFreePath('hg', 150));
-});
-
-test('mean free path is far below 1 mm for Hg at 170 degC', () => {
-  assert.between(meanFreePath('hg', 170), 1e-6, 1e-4);
-});
-
-test('Ne mean free path is independent of the Hg temperature argument', () => {
-  assert.equal(meanFreePath('ne', 150), meanFreePath('ne', 190));
-});
-
-test('unknown gas throws', () => {
-  let threw = false;
-  try { meanFreePath('xx', 100); } catch { threw = true; }
-  assert.ok(threw);
 });
 
 test('thermal energy at room temperature is about 0.025 eV', () => {

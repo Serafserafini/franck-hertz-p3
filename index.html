@@ -28,173 +28,233 @@
 <div class="wrap layout">
   <nav class="toc" data-i18n-aria="nav.label">
     <a href="#idea" data-i18n="nav.idea"></a>
-    <a href="#tube" data-i18n="nav.tube"></a>
-    <a href="#curve" data-i18n="nav.curve"></a>
-    <a href="#delta" data-i18n="nav.delta"></a>
+    <a href="#scheme" data-i18n="nav.scheme"></a>
+    <a href="#roles" data-i18n="nav.roles"></a>
+    <a href="#run" data-i18n="nav.run"></a>
+    <a href="#nogas" data-i18n="nav.nogas"></a>
+    <a href="#cmp" data-i18n="nav.cmp"></a>
+    <a href="#gas" data-i18n="nav.gas"></a>
+    <a href="#peaks" data-i18n="nav.peaks"></a>
+    <a href="#glow" data-i18n="nav.glow"></a>
+    <a href="#minima" data-i18n="nav.minima"></a>
     <a href="#refs" data-i18n="nav.refs"></a>
   </nav>
 
   <main>
     <noscript><p class="note" data-i18n="noscript">This page needs JavaScript for the interactive tools.</p></noscript>
+    <div class="gasbar">
+      <label><span data-i18n="ctl.gas"></span>
+        <select id="global-gas">
+          <option value="hg" data-i18n="gas.hg"></option>
+          <option value="ne" data-i18n="gas.ne"></option>
+        </select>
+      </label>
+      <span class="muted" data-i18n="gasbar.hint"></span>
+    </div>
 
-    <!-- 1 · The idea -->
+    <!-- 1 · Energy levels -->
     <section id="idea">
       <h2 data-i18n="idea.title"></h2>
       <p data-i18n="idea.p1"></p>
-      <p data-i18n="idea.p2"></p>
       <div class="card">
         <div class="controls">
-          <label><span data-i18n="ctl.gas"></span>
-            <select id="levels-gas">
-              <option value="hg" data-i18n="gas.hg"></option>
-              <option value="ne" data-i18n="gas.ne"></option>
-            </select>
-          </label>
           <label class="grow"><span data-i18n="idea.temp"></span> <output id="levels-T-out"></output>
             <input id="levels-T" type="range" min="2.4" max="4.8" step="0.01" value="2.47">
           </label>
         </div>
-        <div id="levels-svg" class="figure" role="img" aria-labelledby="levels-cap"></div>
-        <p id="levels-cap" class="caption" data-i18n="idea.caption"></p>
+        <div id="levels-svg" class="figure" role="img" data-i18n-aria="idea.levels.aria"></div>
+        <p class="caption" data-i18n="idea.caption"></p>
         <p id="levels-result" class="result" aria-live="polite"></p>
+      </div>
+      <div class="card">
+        <h3 data-i18n="idea.orb.title"></h3>
+        <div id="orbitals-svg" class="figure" role="img" data-i18n-aria="idea.orb.aria"></div>
+        <p class="caption" data-i18n="idea.orb.caption"></p>
       </div>
       <p class="note" data-i18n="idea.thermal"></p>
       <p class="theory" data-i18n="idea.theory"></p>
     </section>
 
-    <!-- 2 · The tube -->
-    <section id="tube">
-      <h2 data-i18n="tube.title"></h2>
-      <p data-i18n="tube.p1"></p>
-      <svg class="schematic" viewBox="0 0 600 140" role="img" data-i18n-aria="tube.schematic.aria">
-        <rect x="10" y="30" width="580" height="70" rx="35" class="glass"/>
-        <rect x="26" y="48" width="8" height="34" class="electrode"/>
-        <line x1="138" y1="34" x2="138" y2="96" class="grid-el"/>
-        <line x1="462" y1="34" x2="462" y2="96" class="grid-el"/>
-        <rect x="566" y="42" width="8" height="46" class="electrode"/>
-        <g class="sch-label" text-anchor="middle">
-          <text x="30" y="122">K</text><text x="138" y="122">G₁</text>
-          <text x="462" y="122">G₂</text><text x="570" y="122">A</text>
-          <text x="84" y="20">U₁</text><text x="300" y="20">U₂</text><text x="516" y="20">U₃</text>
-        </g>
-        <g class="sch-arrow">
-          <line x1="34" y1="26" x2="134" y2="26"/><line x1="142" y1="26" x2="458" y2="26"/><line x1="466" y1="26" x2="566" y2="26"/>
-        </g>
+    <!-- 2 · The experiment scheme -->
+    <section id="scheme">
+      <h2 data-i18n="scheme.title"></h2>
+      <p data-i18n="scheme.p1"></p>
+      <div class="card">
+        <div id="scheme-svg" class="figure" role="img" data-i18n-aria="scheme.aria"></div>
+        <p class="caption" data-i18n="scheme.caption"></p>
+      </div>
+      <p class="theory" data-i18n="scheme.theory"></p>
+    </section>
+
+    <!-- 3 · What the voltages do -->
+    <section id="roles">
+      <h2 data-i18n="roles.title"></h2>
+      <div class="cards3">
+        <div class="card"><h3 data-i18n="roles.suction.title"></h3><p data-i18n="roles.suction.text"></p></div>
+        <div class="card"><h3 data-i18n="roles.accel.title"></h3><p data-i18n="roles.accel.text"></p></div>
+        <div class="card"><h3 data-i18n="roles.decel.title"></h3><p data-i18n="roles.decel.text"></p></div>
+      </div>
+    </section>
+
+    <!-- 4 · How the experiment is run -->
+    <section id="run">
+      <h2 data-i18n="run.title"></h2>
+      <p data-i18n="run.p1"></p>
+      <div class="card">
+        <p id="run-fixed" class="chips"></p>
+        <div class="controls">
+          <label class="grow"><span data-i18n="run.U2"></span> <output id="run-U2-out"></output>
+            <input id="run-U2" type="range" min="0" max="45" step="0.25" value="0">
+          </label>
+          <button id="run-play" type="button" class="btn"></button>
+        </div>
+        <div id="run-plot" class="plot" role="img" data-i18n-aria="run.plot.aria"></div>
+        <p id="run-readout" class="result"></p>
+      </div>
+      <h3 data-i18n="run.obs.title"></h3>
+      <ol class="look">
+        <li data-i18n="run.obs.1"></li>
+        <li data-i18n="run.obs.2"></li>
+        <li data-i18n="run.obs.3"></li>
+        <li data-i18n="run.obs.4"></li>
+      </ol>
+    </section>
+
+    <!-- 5 · Anode current without gas -->
+    <section id="nogas">
+      <h2 data-i18n="nogas.title"></h2>
+      <p data-i18n="nogas.p1"></p>
+      <div class="card">
+        <div class="controls">
+          <label class="grow"><span data-i18n="nogas.probe"></span> <output id="nogas-U2-out"></output>
+            <input id="nogas-U2" type="range" min="0" max="45" step="0.25" value="5">
+          </label>
+          <button id="nogas-toggle" type="button" class="btn"></button>
+        </div>
+        <div id="nogas-plot" class="plot short" role="img" data-i18n-aria="nogas.plot.aria"></div>
+        <canvas id="nogas-canvas" class="motion" role="img" data-i18n-aria="nogas.canvas.aria"></canvas>
+      </div>
+    </section>
+
+    <!-- 6 · Ideal and real, no gas -->
+    <section id="cmp">
+      <h2 data-i18n="cmp.title"></h2>
+      <p data-i18n="cmp.p1"></p>
+      <div class="card">
+        <div class="controls">
+          <label class="grow"><span data-i18n="cmp.U3"></span> <output id="cmp-U3-out"></output>
+            <input id="cmp-U3" type="range" min="0.5" max="5" step="0.1" value="1.5">
+          </label>
+        </div>
+        <div id="cmp-plot" class="plot short" role="img" data-i18n-aria="cmp.plot.aria"></div>
+      </div>
+      <p class="note" data-i18n="cmp.p2"></p>
+    </section>
+
+    <!-- 7 · Anode current with gas -->
+    <section id="gas">
+      <h2 data-i18n="gas.title"></h2>
+      <p data-i18n="gas.p1"></p>
+      <div class="card">
+        <div class="controls">
+          <label><span data-i18n="ctl.U1"></span> <output id="gas-U1-out"></output>
+            <input id="gas-U1" type="range" min="0" max="4.5" step="0.1" value="1">
+          </label>
+          <label><span data-i18n="ctl.U2"></span> <output id="gas-U2-out"></output>
+            <input id="gas-U2" type="range" min="0" max="45" step="0.25" value="20">
+          </label>
+          <label><span data-i18n="ctl.U3"></span> <output id="gas-U3-out"></output>
+            <input id="gas-U3" type="range" min="0.5" max="5" step="0.1" value="1.5">
+          </label>
+          <label><span id="gas-density-label"></span> <output id="gas-density-out"></output>
+            <input id="gas-density" type="range" min="150" max="190" step="1" value="170">
+          </label>
+          <label class="check"><input id="gas-ideal" type="checkbox" checked> <span data-i18n="gas.ideal"></span></label>
+        </div>
+        <div id="gas-plot" class="plot" role="img" data-i18n-aria="gas.plot.aria"></div>
+        <p id="gas-readout" class="result" aria-live="polite"></p>
+        <h3 data-i18n="gas.energy.title"></h3>
+        <div id="gas-energy-plot" class="plot short" role="img" data-i18n-aria="gas.energy.aria"></div>
+      </div>
+      <p class="note" data-i18n="gas.p2"></p>
+      <p class="theory" data-i18n="gas.theory"></p>
+    </section>
+
+    <!-- 8 · Why several peaks -->
+    <section id="peaks">
+      <h2 data-i18n="peaks.title"></h2>
+      <p data-i18n="peaks.p1"></p>
+      <svg id="peaks-cap" class="capacitor" viewBox="0 0 400 110" role="img" data-i18n-aria="peaks.cap.aria">
+        <line x1="90" y1="14" x2="90" y2="80" class="plate"/>
+        <line x1="310" y1="14" x2="310" y2="80" class="plate"/>
+        <g class="field"><line x1="100" y1="30" x2="300" y2="30"/><line x1="100" y1="47" x2="300" y2="47"/><line x1="100" y1="64" x2="300" y2="64"/></g>
+        <path d="M296,26 l8,4 l-8,4 z M296,43 l8,4 l-8,4 z M296,60 l8,4 l-8,4 z" class="head"/>
+        <text x="90" y="100" text-anchor="middle" data-i18n="peaks.cap.G1"></text>
+        <text x="310" y="100" text-anchor="middle" data-i18n="peaks.cap.G2"></text>
+        <text x="200" y="22" text-anchor="middle" class="small" data-i18n="peaks.cap.E"></text>
       </svg>
       <div class="card">
         <div class="controls">
-          <label><span data-i18n="ctl.gas"></span>
-            <select id="tube-gas">
-              <option value="hg" data-i18n="gas.hg"></option>
-              <option value="ne" data-i18n="gas.ne"></option>
-            </select>
+          <label><span data-i18n="ctl.U1"></span> <output id="peaks-U1-out"></output>
+            <input id="peaks-U1" type="range" min="0" max="4.5" step="0.1" value="1">
           </label>
-          <label><span data-i18n="tube.U1"></span> <output id="tube-U1-out"></output>
-            <input id="tube-U1" type="range" min="0" max="4.5" step="0.1" value="1">
+          <label class="grow"><span data-i18n="ctl.U2"></span> <output id="peaks-U2-out"></output>
+            <input id="peaks-U2" type="range" min="0" max="45" step="0.25" value="20">
           </label>
-          <label><span data-i18n="tube.U2"></span> <output id="tube-U2-out"></output>
-            <input id="tube-U2" type="range" min="0" max="30" step="0.1" value="12">
-          </label>
-          <label><span data-i18n="tube.U3"></span> <output id="tube-U3-out"></output>
-            <input id="tube-U3" type="range" min="0" max="5" step="0.1" value="1.5">
-          </label>
-          <label class="check"><input id="tube-gasOn" type="checkbox" checked> <span data-i18n="tube.gasOn"></span></label>
         </div>
-        <div id="tube-plot" class="plot short" role="img" data-i18n-aria="tube.plot.aria"></div>
-        <p id="tube-result" class="result" aria-live="polite"></p>
-        <p class="caption" data-i18n="tube.caption"></p>
-      </div>
-      <p class="note" data-i18n="tube.hint"></p>
-      <p class="theory" data-i18n="tube.theory"></p>
-    </section>
-
-    <!-- 3 · The curve -->
-    <section id="curve">
-      <h2 data-i18n="curve.title"></h2>
-      <p data-i18n="curve.p1"></p>
-      <div class="card">
-        <div class="controls">
-          <label><span data-i18n="ctl.gas"></span>
-            <select id="curve-gas">
-              <option value="hg" data-i18n="gas.hg"></option>
-              <option value="ne" data-i18n="gas.ne"></option>
-            </select>
-          </label>
-          <label id="curve-temp-wrap"><span data-i18n="curve.temp"></span> <output id="curve-temp-out"></output>
-            <input id="curve-temp" type="range" min="150" max="190" step="1" value="170">
-          </label>
-          <label><span data-i18n="curve.U3"></span> <output id="curve-U3-out"></output>
-            <input id="curve-U3" type="range" min="0.5" max="5" step="0.1" value="1.5">
-          </label>
-          <label><span data-i18n="curve.spread"></span> <output id="curve-spread-out"></output>
-            <input id="curve-spread" type="range" min="0.05" max="1" step="0.05" value="0.3">
-          </label>
-          <label class="check"><input id="curve-nogas" type="checkbox" checked> <span data-i18n="curve.nogas"></span></label>
-        </div>
-        <p id="curve-info" class="result" aria-live="polite"></p>
-        <div class="plot-wrap">
-          <div id="curve-plot" class="plot" role="img" data-i18n-aria="curve.plot.aria"></div>
-          <span id="curve-busy" class="busy" hidden data-i18n="busy"></span>
-          <span id="curve-status" class="sr-only" role="status"></span>
-          <p id="curve-error" class="error" role="alert" hidden data-i18n="curve.error"></p>
-        </div>
-      </div>
-
-      <div class="card">
-        <h3 data-i18n="motion.title"></h3>
-        <div class="controls">
-          <label class="grow"><span data-i18n="curve.probe"></span> <output id="curve-probe-out"></output>
-            <input id="curve-probe" type="range" min="0" max="45" step="0.25" value="20">
-          </label>
-          <button id="motion-toggle" type="button" class="btn"></button>
-        </div>
-        <canvas id="motion-canvas" class="motion" role="img" aria-labelledby="motion-cap"></canvas>
-        <p id="motion-cap" class="caption" data-i18n="motion.caption"></p>
-      </div>
-
-      <h3 data-i18n="curve.look.title"></h3>
-      <ol class="look">
-        <li data-i18n="curve.look.1"></li>
-        <li data-i18n="curve.look.2"></li>
-        <li data-i18n="curve.look.3"></li>
-        <li data-i18n="curve.look.4"></li>
-        <li data-i18n="curve.look.5"></li>
-      </ol>
-      <p class="note" data-i18n="curve.limits"></p>
-      <p class="theory" data-i18n="curve.theory"></p>
-    </section>
-
-    <!-- 4 · From the curve to ΔE -->
-    <section id="delta">
-      <h2 data-i18n="delta.title"></h2>
-      <p data-i18n="delta.p1"></p>
-      <div class="card">
-        <div class="controls">
-          <label class="grow"><span data-i18n="delta.contact"></span> <output id="contact-out"></output>
-            <input id="contact" type="range" min="0" max="3" step="0.1" value="1">
-          </label>
-          <label><span data-i18n="delta.kind"></span>
-            <select id="kind">
-              <option value="maxima" data-i18n="delta.maxima"></option>
-              <option value="minima" data-i18n="delta.minima"></option>
-            </select>
-          </label>
-          <label class="check" id="compare-wrap"><input id="compare" type="checkbox"> <span data-i18n="delta.compare"></span></label>
-        </div>
-        <div id="delta-plot" class="plot short" role="img" data-i18n-aria="delta.plot.aria"></div>
-        <p id="delta-result" class="result" aria-live="polite"></p>
-        <table id="delta-table" class="data">
-          <thead><tr><th>n</th><th data-i18n="delta.col.u"></th><th data-i18n="delta.col.d"></th></tr></thead>
+        <div id="peaks-plot" class="plot short" role="img" data-i18n-aria="peaks.plot.aria"></div>
+        <p id="peaks-zones" class="result"></p>
+        <div id="peaks-curve-plot" class="plot" role="img" data-i18n-aria="peaks.curve.aria"></div>
+        <p id="peaks-result" class="result" aria-live="polite"></p>
+        <table id="peaks-table" class="data">
+          <thead><tr><th>n</th><th data-i18n="peaks.col.u"></th><th data-i18n="peaks.col.d"></th></tr></thead>
           <tbody></tbody>
         </table>
-        <div id="compare-plot" class="plot short" role="img" data-i18n-aria="compare.plot.aria" hidden></div>
-        <p class="caption" id="compare-cap" data-i18n="delta.compare.caption" hidden></p>
       </div>
-      <p class="note" data-i18n="delta.p2"></p>
-      <p class="theory" data-i18n="delta.theory"></p>
+      <p class="note" data-i18n="peaks.p2"></p>
+      <p class="theory" data-i18n="peaks.theory"></p>
     </section>
 
-    <!-- 5 · References -->
+    <!-- 9 · Illuminated stripes -->
+    <section id="glow">
+      <h2 data-i18n="glow.title"></h2>
+      <p data-i18n="glow.p1"></p>
+      <div class="card">
+        <div class="controls">
+          <label class="grow"><span data-i18n="glow.U2"></span> <output id="glow-U2-out"></output>
+            <input id="glow-U2" type="range" min="0" max="45" step="0.25" value="20">
+          </label>
+          <button id="glow-toggle" type="button" class="btn"></button>
+        </div>
+        <canvas id="glow-canvas" class="motion tall" role="img" data-i18n-aria="glow.canvas.aria"></canvas>
+      </div>
+      <p class="theory" data-i18n="glow.theory"></p>
+    </section>
+
+    <!-- 10 · Why the minima do not reach zero -->
+    <section id="minima">
+      <h2 data-i18n="minima.title"></h2>
+      <p data-i18n="minima.p1"></p>
+      <div class="card">
+        <div class="controls">
+          <label class="grow"><span data-i18n="minima.U2"></span> <output id="minima-U2-out"></output>
+            <input id="minima-U2" type="range" min="0" max="45" step="0.25" value="20">
+          </label>
+          <label><span id="minima-density-label"></span> <output id="minima-density-out"></output>
+            <input id="minima-density" type="range" min="150" max="190" step="1" value="170">
+          </label>
+          <button id="minima-toggle" type="button" class="btn"></button>
+        </div>
+        <canvas id="minima-canvas" class="motion tall" role="img" data-i18n-aria="minima.canvas.aria"></canvas>
+        <div class="bar" aria-hidden="true"><div id="minima-bar-fill"></div></div>
+        <p id="minima-bartext" class="result" aria-live="polite"></p>
+        <div id="minima-plot" class="plot short" role="img" data-i18n-aria="minima.plot.aria"></div>
+      </div>
+      <p class="note" data-i18n="minima.p2"></p>
+      <p class="theory" data-i18n="minima.theory"></p>
+    </section>
+
+    <!-- 11 · References -->
     <section id="refs">
       <h2 data-i18n="refs.title"></h2>
       <p class="muted" data-i18n="refs.intro"></p>

@@ -53,21 +53,13 @@ test('content stays in scope: no uncertainty, safety or instrument-handling word
   }
 });
 
-test('every explanatory section carries a theory link in both languages', () => {
-  for (const lang of ['en', 'de']) {
-    for (const k of ['idea.theory', 'tube.theory', 'curve.theory', 'delta.theory']) {
-      assert.ok(STRINGS[lang][k] && STRINGS[lang][k].includes('<a href="https://'), `${lang}:${k} missing link`);
-    }
-  }
-});
-
 test('German output uses decimal commas for numbers passed to t() and num()', () => {
   try {
     setLang('de');
-    assert.ok(t('curve.info.hg', { T: 170, p: '817', lam: '18.7' }).includes('18,7'));
+    assert.ok(t('run.fixed', { name: 'U₁', v: '1.5' }).includes('1,5'));
     assert.equal(num(4.956, 2), '4,96');
     setLang('en');
-    assert.ok(t('curve.info.hg', { T: 170, p: '817', lam: '18.7' }).includes('18.7'));
+    assert.ok(t('run.fixed', { name: 'U₁', v: '1.5' }).includes('1.5'));
     assert.equal(num(4.956, 2), '4.96');
   } finally { setLang('en'); }
 });
@@ -76,43 +68,56 @@ test('German wording of the empty-spacing hint does not call the sweep a measure
   assert.ok(!/Messbereich/.test(STRINGS.de['delta.none']));
 });
 
-test('figures, plots and live results are accessible in index.html', async () => {
+test('figures, plots, canvases and live results are accessible in index.html', async () => {
   const html = await (await fetch('../index.html')).text();
   const doc = new DOMParser().parseFromString(html, 'text/html');
-  const named = (el) => el.hasAttribute('data-i18n-aria') || el.hasAttribute('aria-labelledby');
-  const svg = doc.querySelector('svg.schematic');
-  assert.ok(svg && named(svg) && !/aria-label="[A-Za-z]/.test(svg.outerHTML.slice(0, 120)), 'schematic needs a translated name');
-  for (const id of ['tube-plot', 'curve-plot', 'delta-plot', 'compare-plot']) {
+  for (const id of ['levels-svg', 'orbitals-svg', 'scheme-svg', 'run-plot', 'nogas-plot', 'cmp-plot', 'gas-plot',
+    'gas-energy-plot', 'peaks-plot', 'peaks-curve-plot', 'minima-plot']) {
     const el = doc.getElementById(id);
     assert.ok(el && el.getAttribute('role') === 'img' && el.hasAttribute('data-i18n-aria'), id + ' needs role=img and a translated name');
   }
-  assert.ok(named(doc.getElementById('motion-canvas')), 'canvas needs a name');
-  for (const id of ['tube-result', 'delta-result', 'levels-result', 'curve-info']) {
+  for (const id of ['nogas-canvas', 'glow-canvas', 'minima-canvas']) {
+    const el = doc.getElementById(id);
+    assert.ok(el && el.getAttribute('role') === 'img' && el.hasAttribute('data-i18n-aria'), id + ' needs role=img and a translated name');
+  }
+  const cap = doc.getElementById('peaks-cap');
+  assert.ok(cap && cap.hasAttribute('data-i18n-aria'), 'capacitor sketch needs a translated name');
+  for (const id of ['levels-result', 'gas-readout', 'peaks-result', 'minima-bartext']) {
     assert.equal(doc.getElementById(id).getAttribute('aria-live'), 'polite', id + ' must be a polite live region');
   }
-  const st = doc.getElementById('curve-status');
-  assert.ok(st && st.getAttribute('role') === 'status', 'curve-status live region missing');
+});
+
+test('every explanatory section carries a theory link in both languages', () => {
+  for (const lang of ['en', 'de']) {
+    for (const k of ['idea.theory', 'scheme.theory', 'gas.theory', 'peaks.theory', 'glow.theory', 'minima.theory']) {
+      assert.ok(STRINGS[lang][k] && STRINGS[lang][k].includes('<a href="https://'), `${lang}:${k} missing link`);
+    }
+  }
 });
 
 test('plot axis titles contain no literal underscores', () => {
   for (const lang of ['en', 'de']) {
-    for (const k of Object.keys(STRINGS[lang]).filter((k) => k.startsWith('curve.axis.') || k.startsWith('delta.axis.'))) {
+    for (const k of Object.keys(STRINGS[lang]).filter((k) => k.startsWith('axis.'))) {
       assert.ok(!/_/.test(STRINGS[lang][k]), `${lang}:${k} = ${STRINGS[lang][k]}`);
     }
   }
 });
 
-test('explanations name U1 as not simulated and cover both gases in the thermal note', () => {
-  for (const lang of ['en', 'de']) {
-    assert.ok(/U_1/.test(STRINGS[lang]['curve.limits']), lang + ': curve.limits must say what happens to U1');
-    assert.ok(/Ne/.test(STRINGS[lang]['idea.thermal']) && /Hg/.test(STRINGS[lang]['idea.thermal']), lang + ': idea.thermal must cover Hg and Ne');
-  }
-});
-
-test('the curve U3 slider cannot reach 0 and an error region exists', async () => {
+test('the page has all eleven sections and the gas selector', async () => {
   const html = await (await fetch('../index.html')).text();
   const doc = new DOMParser().parseFromString(html, 'text/html');
-  assert.ok(parseFloat(doc.getElementById('curve-U3').min) >= 0.1, 'U3 = 0 makes the curve flat');
-  const err = doc.getElementById('curve-error');
-  assert.ok(err && err.getAttribute('role') === 'alert' && err.hasAttribute('hidden'), 'curve-error alert region missing');
+  for (const id of ['idea', 'scheme', 'roles', 'run', 'nogas', 'cmp', 'gas', 'peaks', 'glow', 'minima', 'refs']) {
+    assert.ok(doc.getElementById(id), 'section #' + id + ' missing');
+  }
+  assert.ok(doc.getElementById('global-gas'), 'gas selector missing');
+});
+
+test('no random numbers are used anywhere in js/', async () => {
+  const files = ['physics', 'analytic', 'params', 'analysis', 'format', 'i18n', 'dom', 'plotstyle', 'store', 'controls',
+    'gapcanvas', 'levels', 'orbitals', 'schematic', 'sweep', 'nogas', 'withgas', 'peaks', 'glow', 'minima', 'main'];
+  for (const f of files) {
+    const res = await fetch(`../js/${f}.js`);
+    if (!res.ok) continue; // modules are added task by task
+    assert.ok(!/Math\.random/.test(await res.text()), f + '.js uses Math.random');
+  }
 });
