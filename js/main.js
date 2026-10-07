@@ -4,6 +4,7 @@ import { initLevels } from './levels.js';
 import { initScheme } from './schematic.js';
 import { initSweep } from './sweep.js';
 import { initNoGas } from './nogas.js';
+import { initWithGas } from './withgas.js';
 
 function boot() {
   setLang(initialLang());
@@ -21,6 +22,7 @@ function boot() {
   initScheme();
   initSweep();
   initNoGas();
+  initWithGas();
 }
 
 boot();
