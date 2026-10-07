@@ -5,6 +5,7 @@ import { initScheme } from './schematic.js';
 import { initSweep } from './sweep.js';
 import { initNoGas } from './nogas.js';
 import { initWithGas } from './withgas.js';
+import { initPeaks } from './peaks.js';
 
 function boot() {
   setLang(initialLang());
@@ -23,6 +24,7 @@ function boot() {
   initSweep();
   initNoGas();
   initWithGas();
+  initPeaks();
 }
 
 boot();
