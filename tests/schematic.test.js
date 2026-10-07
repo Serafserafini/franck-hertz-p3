@@ -26,14 +26,17 @@ test('the long plate (plus) of the sources U1 and U2 faces the later electrode, 
   assert.ok(longs[2] < shorts[2], 'U3: plus on the G2 side (A is lower than G2)');
 });
 
-test('the potential steps up by U1 and U2 and down by U3', () => {
+test('the potential is a linear ramp in each stretch: up by U1 and U2, down by U3 (uniform fields)', () => {
   const box = render();
   const pts = box.querySelector('polyline.phi').getAttribute('points').trim().split(/\s+/).map((p) => p.split(',').map(Number));
+  assert.equal(pts.length, 4, 'one vertex per electrode: K, G1, G2, A');
   const ys = pts.map((p) => p[1]);
   // SVG y grows downwards: a higher potential is a smaller y.
-  assert.ok(ys[2] < ys[0], 'phi(G1) above phi(K)');
-  assert.ok(ys[4] < ys[2], 'phi(G2) above phi(G1)');
-  assert.ok(ys[6] > ys[4], 'phi(A) below phi(G2)');
+  assert.ok(ys[1] < ys[0], 'phi(G1) above phi(K)');
+  assert.ok(ys[2] < ys[1], 'phi(G2) above phi(G1)');
+  assert.ok(ys[3] > ys[2], 'phi(A) below phi(G2)');
+  const xs = pts.map((p) => p[0]);
+  for (let i = 1; i < xs.length; i++) assert.ok(xs[i] > xs[i - 1], 'no vertical steps: x strictly increases');
 });
 
 test('the three zone explanations are present', () => {

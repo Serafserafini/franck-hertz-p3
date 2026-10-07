@@ -5,7 +5,7 @@ export default {
   en: {
     'scheme.title': '2 · The experiment: tube and potentials',
     'scheme.p1': r`The tube is filled with the gas. A hot <strong>cathode K</strong> emits electrons; two grids <strong>G₁</strong> and <strong>G₂</strong> and the <strong>anode A</strong> follow. Three voltage sources are connected in series. In the symbol of a source the <em>long bar is the positive pole</em>. Electrons are negative, so they are pulled towards the more positive electrode: they gain kinetic energy when they move to a higher potential φ and lose it when they move to a lower one.`,
-    'scheme.caption': r`Top: the tube with the three sources (long bar = +). Bottom: the potential φ along the tube. Each step is one of the voltages.`,
+    'scheme.caption': r`Top: the tube with the three sources (long bar = +). Bottom: the potential φ along the tube. Between neighbouring electrodes the field is uniform, so φ rises (or falls) <strong>linearly</strong>; the change over each stretch is one of the voltages.`,
     'scheme.z1': 'U₁ > 0: φ(G₁) − φ(K)|G₁ is more positive than K|electrons are pulled out of K',
     'scheme.z2': 'U₂ > 0: φ(G₂) − φ(G₁)|G₂ is more positive than G₁|electrons gain the energy e₀U₂',
     'scheme.z3': 'U₃ > 0: φ(G₂) − φ(A)|A is lower than G₂|electrons are slowed down',
@@ -26,7 +26,7 @@ export default {
   de: {
     'scheme.title': '2 · Der Versuch: Röhre und Potentiale',
     'scheme.p1': r`Die Röhre ist mit dem Gas gefüllt. Eine heiße <strong>Kathode K</strong> emittiert Elektronen; es folgen zwei Gitter <strong>G₁</strong> und <strong>G₂</strong> und die <strong>Anode A</strong>. Drei Spannungsquellen sind in Reihe geschaltet. Im Symbol einer Quelle ist der <em>lange Strich der Pluspol</em>. Elektronen sind negativ und werden zur positiveren Elektrode gezogen: Sie gewinnen kinetische Energie, wenn sie zu einem höheren Potential φ laufen, und verlieren sie, wenn sie zu einem tieferen laufen.`,
-    'scheme.caption': r`Oben: die Röhre mit den drei Quellen (langer Strich = +). Unten: das Potential φ entlang der Röhre. Jede Stufe ist eine der Spannungen.`,
+    'scheme.caption': r`Oben: die Röhre mit den drei Quellen (langer Strich = +). Unten: das Potential φ entlang der Röhre. Zwischen benachbarten Elektroden ist das Feld homogen, daher steigt (oder fällt) φ <strong>linear</strong>; die Änderung über jedem Abschnitt ist eine der Spannungen.`,
     'scheme.z1': 'U₁ > 0: φ(G₁) − φ(K)|G₁ ist positiver als K|Elektronen werden aus K gezogen',
     'scheme.z2': 'U₂ > 0: φ(G₂) − φ(G₁)|G₂ ist positiver als G₁|Elektronen gewinnen die Energie e₀U₂',
     'scheme.z3': 'U₃ > 0: φ(G₂) − φ(A)|A liegt tiefer als G₂|Elektronen werden abgebremst',

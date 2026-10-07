@@ -48,8 +48,8 @@ export function renderScheme(container) {
   const y = (phi) => PHI_BASE - phi * PHI_UNIT;
   const phi = [0, U.U1, U.U1 + U.U2, U.U1 + U.U2 - U.U3];
   const xs = [XK, XG1, XG2, XA];
-  // Vertices in order: K level, G1 corner, G1 level, G2 corner, G2 level, A corner, A level.
-  const poly = [[xs[0], y(phi[0])], [xs[1], y(phi[0])], [xs[1], y(phi[1])], [xs[2], y(phi[1])], [xs[2], y(phi[2])], [xs[3], y(phi[2])], [xs[3], y(phi[3])]];
+  // Uniform field between neighbouring electrodes (close, parallel plates): phi is a straight ramp in each stretch.
+  const poly = xs.map((x, i) => [x, y(phi[i])]);
   // coloured bands tie each potential step to its explanation row
   [['z1', xs[0], xs[1]], ['z2', xs[1], xs[2]], ['z3', xs[2], xs[3]]].forEach(([cls, x0, x1]) => {
     svg.append(svgEl('rect', { x: x0, y: PHI_TOP - 10, width: x1 - x0, height: PHI_BASE + 6 - (PHI_TOP - 10), class: 'band ' + cls }));

@@ -10,6 +10,20 @@ const W = 560, H = 380;
 const PAD = { l: 64, r: 16, t: 16, b: 34 };
 const X_LINE0 = 150, X_LINE1 = 330;
 
+// `deg` short segments side by side at one height (degenerate orbitals), centred in the ladder column.
+// Returns the x centres of the segments.
+function segments(svg, y, deg, cls) {
+  const w = 46, gap = 8, total = deg * w + (deg - 1) * gap;
+  const x0 = (X_LINE0 + X_LINE1) / 2 - total / 2;
+  const centres = [];
+  for (let i = 0; i < deg; i++) {
+    const a = x0 + i * (w + gap);
+    svg.append(svgEl('line', { x1: a, y1: y, x2: a + w, y2: y, class: cls }));
+    centres.push(a + w / 2);
+  }
+  return centres;
+}
+
 // Push labels apart vertically (screen y, input order preserved) so they stay readable.
 function spread(ys, gap) {
   const idx = ys.map((_, i) => i).sort((a, b) => ys[a] - ys[b]);
@@ -41,15 +55,18 @@ export function renderLevels(container, gasId, tempK) {
   }
   svg.append(svgEl('text', { x: 14, y: 14, class: 'small' }, 'E / eV'));
 
-  svg.append(svgEl('line', { x1: X_LINE0, y1: y(0), x2: X_LINE1, y2: y(0), class: 'lv' }));
+  // ground orbital (filled: two electrons per orbital), ionisation limit, empty orbitals above
+  const ground = segments(svg, y(0), data.groundDeg, 'lv');
+  ground.forEach((cx) => svg.append(svgEl('text', { x: cx, y: y(0) - 7, 'text-anchor': 'middle', class: 'glyph' }, '↑↓')));
   svg.append(svgEl('text', { x: X_LINE1 + 10, y: y(0) + 4 }, `${data.ground} (${t('idea.ground')})`));
   svg.append(svgEl('line', { x1: X_LINE0, y1: y(data.ionization), x2: X_LINE1, y2: y(data.ionization), class: 'ion' }));
   svg.append(svgEl('text', { x: X_LINE1 + 10, y: y(data.ionization) + 4, class: 'small' }, `${t('idea.ion')} ${num(data.ionization)} eV`));
 
   const labelYs = spread(data.levels.map((l) => y(l.e)), 15);
   data.levels.forEach((l, i) => {
-    svg.append(svgEl('line', { x1: X_LINE0, y1: y(l.e), x2: X_LINE1, y2: y(l.e), class: l.highlight ? 'lv hl' : 'lv' }));
-    svg.append(svgEl('text', { x: X_LINE1 + 10, y: labelYs[i] + 4, class: l.highlight ? 'hl-text' : '' }, `${l.label}  ${num(l.e, 2)} eV`));
+    segments(svg, y(l.e), l.deg, l.highlight ? 'lv hl' : 'lv');
+    const deg = l.deg > 1 ? ` ×${l.deg}` : '';
+    svg.append(svgEl('text', { x: X_LINE1 + 10, y: labelYs[i] + 4, class: l.highlight ? 'hl-text' : '' }, `${l.label}${deg}  ${num(l.e, 2)} eV`));
   });
 
   const hl = data.levels.find((l) => l.highlight);
@@ -62,7 +79,7 @@ export function renderLevels(container, gasId, tempK) {
 
   const kT = Math.min(thermalEnergyEV(tempK), top);
   svg.append(svgEl('circle', { cx: PAD.l + 34, cy: y(kT), r: 5, class: 'dot' }));
-  svg.append(svgText({ x: PAD.l + 44, y: y(kT) - 8, class: 'small' }, t('idea.kt', { kt: thermalEnergyEV(tempK).toPrecision(2) })));
+  svg.append(svgText({ x: PAD.l + 44, y: y(kT) - 34, class: 'small' }, t('idea.kt', { kt: thermalEnergyEV(tempK).toPrecision(2) })));
 
   container.replaceChildren(svg);
 }
