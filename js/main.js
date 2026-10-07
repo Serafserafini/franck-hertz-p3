@@ -1,4 +1,5 @@
 import { initialLang, setLang } from './i18n.js';
+import { initLevels } from './levels.js';
 
 function boot() {
   setLang(initialLang());
@@ -9,6 +10,7 @@ function boot() {
     document.dispatchEvent(new CustomEvent('themechange'));
   });
   // Section modules are initialised here.
+  initLevels();
 }
 
 boot();
