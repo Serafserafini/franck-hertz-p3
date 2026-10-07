@@ -1,6 +1,7 @@
 import { initialLang, setLang } from './i18n.js';
 import { state, update } from './store.js';
 import { initLevels } from './levels.js';
+import { initScheme } from './schematic.js';
 
 function boot() {
   setLang(initialLang());
@@ -15,6 +16,7 @@ function boot() {
   });
   // Section modules are initialised here (added by the following tasks).
   initLevels();
+  initScheme();
 }
 
 boot();
