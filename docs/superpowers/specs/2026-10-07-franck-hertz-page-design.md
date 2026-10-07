@@ -113,3 +113,16 @@ behaviour discussed by Rapior et al. (temperature effect on shape and extrema).
 - German texts are drafted by the assistant and should be proofread by the supervisor.
 - Model constants (cross-sections, gap geometry) are tuned to give plausible curves, not fitted to measured data; to be reviewed against the manual (*Arbeitsanleitung Franck-Hertz-Versuch*) and Rapior et al.
 - Hosting location (TUWEL link, TU webspace, or GitHub Pages) is not decided; the folder is host-agnostic.
+
+## 9. Amendments (2026-10-07, from implementation planning)
+
+These supersede the corresponding statements above.
+
+- **Test runner:** no Node is installed. Tests are ES-module files run in headless Chrome by `scripts/test.sh` with a 40-line harness (`tests/harness.js`). "Node unit tests" in section 7 means these tests.
+- **Extra modules:** `strings/*.js` (texts per section) + `strings.js`, `store.js` (shared state), `compute.js` (worker client with synchronous fallback), `profile.js` (idealised tube profile), `format.js`, `dom.js`, `plotstyle.js`, `motion.js` (canvas animation, split from `curve.js`).
+- **Model changes (verified by prototype):**
+  - Electrons passing G₂ contribute `1 − sqrt(U3/E)` if `E > U3` (isotropic scattering assumption), not a step function; a step gives flat plateaus and no real maxima.
+  - Effective gap `L = 1 mm`, inelastic probability above threshold `0.3`, `σ(Hg) = 4e-19 m²`, `σ(Ne) = 1e-19 m²`. Ne: 10 hPa, 20 °C, ΔE = 19.0 eV. These are tuning constants, not fitted data.
+  - Extremum detection requires a drop of ≥ 3 % of the curve range on **both** sides within a half-window (1.5 V for Hg, 5 V for Ne); this rejects the plateau start and noise.
+- **Contact potential** is a simulation parameter (`contact`, default 1.0 V), controlled from section 4; the effective accelerating voltage is `U2 − contact`.
+- **Vapour-pressure fit** `log10(p/Pa) = 10.05 − 3163/T(K)` was fitted by the planner to remembered table values (≈376 Pa at 150 °C, ≈2.3 kPa at 200 °C): verify against a published table before release.
