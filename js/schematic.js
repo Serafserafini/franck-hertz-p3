@@ -56,7 +56,7 @@ export function renderScheme(container) {
   });
   svg.append(svgEl('polyline', { points: poly.map((p) => p.join(',')).join(' '), class: 'phi' }));
   for (const x of xs) svg.append(svgEl('line', { x1: x, y1: PHI_TOP - 10, x2: x, y2: PHI_BASE + 6, class: 'dash' }));
-  svg.append(svgEl('text', { x: 14, y: PHI_TOP - 12, class: 'small' }, t('scheme.phi')));
+  svg.append(svgEl('text', { x: 14, y: PHI_TOP - 20, class: 'small' }, t('scheme.phi')));
   svg.append(svgEl('text', { x: 14, y: PHI_TOP + 4, class: 'small' }, '+'));
 
   row(svg, PHI_BASE + 36, t('scheme.z1'), 'z1');

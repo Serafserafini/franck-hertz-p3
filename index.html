@@ -30,9 +30,9 @@
     <a href="#idea" data-i18n="nav.idea"></a>
     <a href="#scheme" data-i18n="nav.scheme"></a>
     <a href="#roles" data-i18n="nav.roles"></a>
-    <a href="#run" data-i18n="nav.run"></a>
     <a href="#nogas" data-i18n="nav.nogas"></a>
     <a href="#cmp" data-i18n="nav.cmp"></a>
+    <a href="#run" data-i18n="nav.run"></a>
     <a href="#gas" data-i18n="nav.gas"></a>
     <a href="#peaks" data-i18n="nav.peaks"></a>
     <a href="#glow" data-i18n="nav.glow"></a>
@@ -100,7 +100,41 @@
       </div>
     </section>
 
-    <!-- 4 · How the experiment is run -->
+    <!-- 4 · Anode current without gas -->
+    <section id="nogas">
+      <h2 data-i18n="nogas.title"></h2>
+      <p data-i18n="nogas.p1"></p>
+      <div class="card">
+        <div class="controls">
+          <label class="grow"><span data-i18n="nogas.probe"></span> <output id="nogas-U2-out"></output>
+            <input id="nogas-U2" type="range" min="0" max="45" step="0.25" value="5">
+          </label>
+          <label class="grow"><span data-i18n="nogas.U3"></span> <output id="nogas-U3-out"></output>
+            <input id="nogas-U3" type="range" min="0.5" max="5" step="0.1" value="1.5">
+          </label>
+          <button id="nogas-toggle" type="button" class="btn"></button>
+        </div>
+        <div id="nogas-plot" class="plot short" role="img" data-i18n-aria="nogas.plot.aria"></div>
+        <canvas id="nogas-canvas" class="motion" role="img" data-i18n-aria="nogas.canvas.aria"></canvas>
+      </div>
+    </section>
+
+    <!-- 5 · Ideal and real, no gas -->
+    <section id="cmp">
+      <h2 data-i18n="cmp.title"></h2>
+      <p data-i18n="cmp.p1"></p>
+      <div class="card">
+        <div class="controls">
+          <label class="grow"><span data-i18n="cmp.U3"></span> <output id="cmp-U3-out"></output>
+            <input id="cmp-U3" type="range" min="0.5" max="5" step="0.1" value="1.5">
+          </label>
+        </div>
+        <div id="cmp-plot" class="plot short" role="img" data-i18n-aria="cmp.plot.aria"></div>
+      </div>
+      <p class="note" data-i18n="cmp.p2"></p>
+    </section>
+
+    <!-- 6 · How the experiment is run -->
     <section id="run">
       <h2 data-i18n="run.title"></h2>
       <p data-i18n="run.p1"></p>
@@ -122,37 +156,6 @@
         <li data-i18n="run.obs.3"></li>
         <li data-i18n="run.obs.4"></li>
       </ol>
-    </section>
-
-    <!-- 5 · Anode current without gas -->
-    <section id="nogas">
-      <h2 data-i18n="nogas.title"></h2>
-      <p data-i18n="nogas.p1"></p>
-      <div class="card">
-        <div class="controls">
-          <label class="grow"><span data-i18n="nogas.probe"></span> <output id="nogas-U2-out"></output>
-            <input id="nogas-U2" type="range" min="0" max="45" step="0.25" value="5">
-          </label>
-          <button id="nogas-toggle" type="button" class="btn"></button>
-        </div>
-        <div id="nogas-plot" class="plot short" role="img" data-i18n-aria="nogas.plot.aria"></div>
-        <canvas id="nogas-canvas" class="motion" role="img" data-i18n-aria="nogas.canvas.aria"></canvas>
-      </div>
-    </section>
-
-    <!-- 6 · Ideal and real, no gas -->
-    <section id="cmp">
-      <h2 data-i18n="cmp.title"></h2>
-      <p data-i18n="cmp.p1"></p>
-      <div class="card">
-        <div class="controls">
-          <label class="grow"><span data-i18n="cmp.U3"></span> <output id="cmp-U3-out"></output>
-            <input id="cmp-U3" type="range" min="0.5" max="5" step="0.1" value="1.5">
-          </label>
-        </div>
-        <div id="cmp-plot" class="plot short" role="img" data-i18n-aria="cmp.plot.aria"></div>
-      </div>
-      <p class="note" data-i18n="cmp.p2"></p>
     </section>
 
     <!-- 7 · Anode current with gas -->

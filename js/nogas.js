@@ -16,10 +16,11 @@ export function initNoGas() {
   let walkers = [], passes = true, finalE = 0;
 
   const u2 = makeSlider('nogas-U2', (v) => `${num(v, 1)} V`, () => { rebuild(); drawPlot(); });
+  const u3n = makeSlider('nogas-U3', (v) => `${num(v, 1)} V`, () => { rebuild(); drawPlot(); });
   const u3 = makeSlider('cmp-U3', (v) => `${num(v, 1)} V`, () => drawCmp());
 
   function U1() { return DEFAULTS[state.gas].U1; }
-  function U3() { return DEFAULTS[state.gas].U3; }
+  function U3() { return u3n.value; }
 
   function rebuild() {
     const path = noGasPath(U1(), u2.value, U3(), ZONE);
@@ -75,13 +76,15 @@ export function initNoGas() {
     const r = RANGES[state.gas];
     u2.range(r.U2[0], r.U2[1], r.U2[2]);
     u2.set(Math.min(5, r.U2[1]));
+    u3n.range(r.U3[0], r.U3[1], r.U3[2]);
+    u3n.set(DEFAULTS[state.gas].U3);
     u3.range(r.U3[0], r.U3[1], r.U3[2]);
     u3.set(DEFAULTS[state.gas].U3);
     rebuild(); drawPlot(); drawCmp();
   }
 
   subscribe((keys) => { if (keys.includes('gas')) onGas(); });
-  document.addEventListener('langchange', () => { u2.refresh(); u3.refresh(); drawPlot(); drawCmp(); });
+  document.addEventListener('langchange', () => { u2.refresh(); u3n.refresh(); u3.refresh(); drawPlot(); drawCmp(); });
   document.addEventListener('themechange', () => { drawPlot(); drawCmp(); });
   onGas();
 }

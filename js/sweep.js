@@ -7,6 +7,7 @@ import { baseLayout, plotConfig, colors } from './plotstyle.js';
 import { t, num, renderMath } from './i18n.js';
 
 const SWEEP_SECONDS = 10;
+const MIN_SPAN = 2; // V, so the axis is not degenerate at U₂ = 0
 
 export function initSweep() {
   const plot = document.getElementById('run-plot');
@@ -32,13 +33,12 @@ export function initSweep() {
     const x = curve.U2s.slice(0, k + 1), y = curve.I.slice(0, k + 1);
     const yMax = Math.max(...curve.I) * 1.1 || 1;
     const data = [
-      { x: curve.U2s, y: curve.I, mode: 'lines', line: { color: c.grid, width: 2 }, hoverinfo: 'skip', showlegend: false },
       { x, y, mode: 'lines', line: { color: c.c1, width: 3 }, hovertemplate: 'U₂ = %{x:.2f} V<br>I = %{y:.3f}<extra></extra>', showlegend: false },
       { x: [x[x.length - 1]], y: [y[y.length - 1]], mode: 'markers', marker: { size: 11, color: c.c2 }, hoverinfo: 'skip', showlegend: false },
     ];
     Plotly.react(plot, data, baseLayout({
       showlegend: false,
-      xaxis: { title: { text: t('axis.U2') }, range: [0, curve.max], fixedrange: true },
+      xaxis: { title: { text: t('axis.U2') }, range: [0, Math.max(slider.value, MIN_SPAN)], fixedrange: true }, // the selected U₂ is the right edge: only what is measured so far is shown
       yaxis: { title: { text: t('axis.IA') }, range: [0, yMax], fixedrange: true },
     }), plotConfig);
     readout.innerHTML = t('run.readout', { U2: num(slider.value, 1), IA: num(y[y.length - 1], 2) });
