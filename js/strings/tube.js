@@ -1,0 +1,36 @@
+const r = String.raw;
+
+export default {
+  en: {
+    'tube.title': '2 · The tube',
+    'tube.p1': r`The tube has a hot <strong>cathode K</strong> that emits electrons (heating voltage $U_K$), two grids G₁ and G₂, and an <strong>anode A</strong>. The <strong>control voltage $U_1$</strong> between K and G₁ draws the electrons out and makes the emission current independent of $U_2$. The <strong>accelerating voltage $U_2$</strong> between G₁ and G₂ gives them the energy $E_\mathrm{kin}=e_0U_2$. A weak <strong>counter voltage $U_3$</strong> between G₂ and A lets only electrons with enough energy through. The measured quantity is the anode current $I_A$ as a function of $U_2$.`,
+    'tube.hint': r`Move the sliders. The electron starts at K with zero energy, gains $e_0U_1$ up to G₁ and $e_0U_2$ between G₁ and G₂, and is decelerated by $e_0U_3$ on the last stretch. With the gas switched on it loses $\Delta E$ every time its energy reaches $\Delta E$.`,
+    'tube.U1': 'Control voltage U₁',
+    'tube.U2': 'Accelerating voltage U₂',
+    'tube.U3': 'Counter voltage U₃',
+    'tube.gasOn': 'Gas atoms present (inelastic collisions)',
+    'tube.caption': r`Idealised kinetic energy of one electron along the tube (mean free path much shorter than the tube). To reach the anode, the electron must still have $E_\mathrm{kin}\ge e_0U_3$ after its last collision.`,
+    'tube.reached': r`✔ The electron reaches the anode with {E} eV left.`,
+    'tube.stopped': r`✘ The electron is turned back by the counter voltage: it has less than $e_0U_3$ when it leaves G₂.`,
+    'tube.axis.x': 'Position (K → A)',
+    'tube.axis.y': 'Kinetic energy / eV',
+    'tube.trace': 'Electron',
+    'tube.dE': 'ΔE',
+  },
+  de: {
+    'tube.title': '2 · Die Röhre',
+    'tube.p1': r`Die Röhre enthält eine heiße <strong>Kathode K</strong>, die Elektronen emittiert (Heizspannung $U_K$), zwei Gitter G₁ und G₂ sowie eine <strong>Anode A</strong>. Die <strong>Steuerspannung $U_1$</strong> zwischen K und G₁ saugt die Elektronen ab und macht den Emissionsstrom unabhängig von $U_2$. Die <strong>Beschleunigungsspannung $U_2$</strong> zwischen G₁ und G₂ gibt ihnen die Energie $E_\mathrm{kin}=e_0U_2$. Eine schwache <strong>Gegenspannung $U_3$</strong> zwischen G₂ und A lässt nur Elektronen mit ausreichender Energie passieren. Gemessen wird der Anodenstrom $I_A$ als Funktion von $U_2$.`,
+    'tube.hint': r`Bewegen Sie die Regler. Das Elektron startet bei K mit der Energie null, gewinnt bis G₁ die Energie $e_0U_1$ und zwischen G₁ und G₂ die Energie $e_0U_2$ und wird auf der letzten Strecke um $e_0U_3$ abgebremst. Bei eingeschaltetem Gas verliert es jedes Mal $\Delta E$, wenn seine Energie $\Delta E$ erreicht.`,
+    'tube.U1': 'Steuerspannung U₁',
+    'tube.U2': 'Beschleunigungsspannung U₂',
+    'tube.U3': 'Gegenspannung U₃',
+    'tube.gasOn': 'Gasatome vorhanden (inelastische Stöße)',
+    'tube.caption': r`Idealisierte kinetische Energie eines Elektrons entlang der Röhre (mittlere freie Weglänge viel kleiner als die Röhre). Um die Anode zu erreichen, muss das Elektron nach dem letzten Stoß noch $E_\mathrm{kin}\ge e_0U_3$ haben.`,
+    'tube.reached': r`✔ Das Elektron erreicht die Anode mit {E} eV Restenergie.`,
+    'tube.stopped': r`✘ Das Elektron wird von der Gegenspannung zurückgehalten: Beim Verlassen von G₂ hat es weniger als $e_0U_3$.`,
+    'tube.axis.x': 'Position (K → A)',
+    'tube.axis.y': 'Kinetische Energie / eV',
+    'tube.trace': 'Elektron',
+    'tube.dE': 'ΔE',
+  },
+};
