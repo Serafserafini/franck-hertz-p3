@@ -6,7 +6,7 @@ import { state, subscribe } from './store.js';
 import { makeSlider } from './controls.js';
 import { renderOrbitals } from './orbitals.js';
 
-const W = 560, H = 380;
+const W = 640, H = 380;
 const PAD = { l: 64, r: 16, t: 16, b: 34 };
 const X_LINE0 = 150, X_LINE1 = 330;
 
@@ -60,9 +60,13 @@ export function renderLevels(container, gasId, tempK) {
       ? t('idea.arrow', { dE: hl.e.toFixed(2), nm: wavelengthNm(hl.e).toFixed(1) })
       : t('idea.arrow.ne', { dE: hl.e.toFixed(1) }))); // 3p -> ground is forbidden: no single line to quote
 
-  const kT = Math.min(thermalEnergyEV(tempK), top);
-  svg.append(svgEl('circle', { cx: PAD.l + 34, cy: y(kT), r: 5, class: 'dot' }));
-  svg.append(svgText({ x: PAD.l + 44, y: y(kT) - 8, class: 'small' }, t('idea.kt', { kt: thermalEnergyEV(tempK).toPrecision(2) })));
+  // Thermal energy: a bar on the right whose height is kT on the same energy axis, with its value on top.
+  const kT = thermalEnergyEV(tempK);
+  const barH = Math.max(1.5, y(0) - y(Math.min(kT, top)));
+  const barX = W - 52;
+  svg.append(svgEl('line', { x1: barX - 8, y1: y(0), x2: barX + 34, y2: y(0), class: 'tick' }));
+  svg.append(svgEl('rect', { x: barX, y: y(0) - barH, width: 26, height: barH, class: 'kt-bar' }));
+  svg.append(svgText({ x: W - 8, y: y(0) - barH - 8, 'text-anchor': 'end', class: 'small' }, t('idea.kt', { kt: kT.toPrecision(2) })));
 
   container.replaceChildren(svg);
 }

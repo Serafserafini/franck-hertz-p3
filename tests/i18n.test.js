@@ -138,3 +138,8 @@ test('the temperature that matches dE to 3/2 kT is given for both gases', () => 
     assert.ok(/10\^4/.test(s) && /10\^5/.test(s), lang + ': Hg ~4e4 K and Ne ~1.5e5 K expected');
   }
 });
+
+test('the ladder caption describes the thermal-energy bar, not a dot', () => {
+  assert.ok(!/\bdot\b/i.test(STRINGS.en['idea.caption']) && /bar/i.test(STRINGS.en['idea.caption']));
+  assert.ok(!/Punkt/.test(STRINGS.de['idea.caption']) && /Balken/.test(STRINGS.de['idea.caption']));
+});
