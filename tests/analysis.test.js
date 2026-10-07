@@ -15,6 +15,14 @@ test('finds maxima and minima of a sine with the right spacing', () => {
   assert.close(mean(spacings(minima)), 5, 0.1);
 });
 
+test('extremum positions are refined below the grid step', () => {
+  const { x, y } = sine(5, 81, 40); // grid step 0.5, true maxima at 1.25 + 5k
+  const { maxima, minima } = findExtrema(x, y, { halfWindow: 1.5, prominence: 0.1 });
+  assert.close(maxima[0].x, 1.25, 0.05);
+  assert.close(minima[0].x, 3.75, 0.05);
+  assert.close(maxima[0].y, 1, 0.02);
+});
+
 test('a monotonic rise followed by a plateau has no extrema', () => {
   const x = [], y = [];
   for (let i = 0; i < 200; i++) { x.push(i * 0.1); y.push(Math.min(i * 0.1, 5) / 5); }

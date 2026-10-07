@@ -6,6 +6,14 @@ export const EXTREMA_OPTIONS = {
   ne: { halfWindow: 5, prominence: 0.03 },
 };
 
+// Parabola through (i-1, i, i+1): sub-grid position and value of the extremum.
+function refine(x, y, i, dx) {
+  const denom = y[i - 1] - 2 * y[i] + y[i + 1];
+  if (denom === 0) return { x: x[i], y: y[i] };
+  const off = Math.max(-1, Math.min(1, (0.5 * (y[i - 1] - y[i + 1])) / denom));
+  return { x: x[i] + off * dx, y: y[i] - 0.25 * (y[i - 1] - y[i + 1]) * off };
+}
+
 // Local maxima/minima that stand out by at least `prominence` (fraction of the
 // full y-range) on BOTH sides within `halfWindow` (in x units). Requiring both
 // sides rejects the start of the plateau and noise on flat parts.
@@ -38,10 +46,10 @@ export function findExtrema(x, y, { halfWindow = 1.5, prominence = 0.04 } = {}) 
       }
     }
     if (isMax && y[i] - leftMin >= minDrop && y[i] - rightMin >= minDrop) {
-      maxima.push({ x: x[i], y: y[i] });
+      maxima.push(refine(x, y, i, dx));
     }
     if (isMin && leftMax - y[i] >= minDrop && rightMax - y[i] >= minDrop) {
-      minima.push({ x: x[i], y: y[i] });
+      minima.push(refine(x, y, i, dx));
     }
   }
   return { maxima, minima };

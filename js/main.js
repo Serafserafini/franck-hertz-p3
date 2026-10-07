@@ -3,6 +3,7 @@ import { initLevels } from './levels.js';
 import { initTube } from './tube.js';
 import { initCurve } from './curve.js';
 import { initMotion } from './motion.js';
+import { initSpacing } from './spacing.js';
 
 function boot() {
   setLang(initialLang());
@@ -17,6 +18,7 @@ function boot() {
   initTube();
   initCurve();
   initMotion();
+  initSpacing();
 }
 
 boot();
