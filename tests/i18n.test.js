@@ -121,3 +121,20 @@ test('no random numbers are used anywhere in js/', async () => {
     assert.ok(!/Math\.random/.test(await res.text()), f + '.js uses Math.random');
   }
 });
+
+test('section 1 does not call dE the smallest excitation (the ladder shows lower levels)', () => {
+  for (const lang of ['en', 'de']) assert.ok(!/smallest excitation|kleinste Anregung/i.test(STRINGS[lang]['idea.p1']), lang);
+});
+
+test('the observation list names U1 + U2 (the drops sit at n dE - U1)', () => {
+  for (const lang of ['en', 'de']) {
+    for (const k of ['run.obs.3', 'run.obs.4']) assert.ok(/U_1\+U_2/.test(STRINGS[lang][k]), `${lang}:${k}`);
+  }
+});
+
+test('the temperature that matches dE to 3/2 kT is given for both gases', () => {
+  for (const lang of ['en', 'de']) {
+    const s = STRINGS[lang]['idea.thermal'];
+    assert.ok(/10\^4/.test(s) && /10\^5/.test(s), lang + ': Hg ~4e4 K and Ne ~1.5e5 K expected');
+  }
+});

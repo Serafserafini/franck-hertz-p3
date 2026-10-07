@@ -45,5 +45,5 @@ test('orbital diagram: two columns, one box per orbital slot and spin arrows', (
   assert.ok(/↑/.test(box.textContent));
   const ne = document.createElement('div');
   renderOrbitals(ne, 'ne');
-  assert.equal(ne.querySelectorAll('rect.box').length, 2 * (3 + 1));
+  assert.equal(ne.querySelectorAll('rect.box').length, 2 * (3 + 1 + 3)); // 2p, 3s, 3p
 });

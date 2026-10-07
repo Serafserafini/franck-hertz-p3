@@ -84,3 +84,12 @@ test('ground and excited orbital diagrams hold the same number of electrons', ()
     assert.ok(count(ORBITALS[id].ground) > 0);
   }
 });
+
+test('the Ne excited-state box diagram shows the 3p group that the ladder highlights', () => {
+  const ex = ORBITALS.ne.excited;
+  const p3 = ex.find((g) => g.name === '3p');
+  assert.ok(p3, '3p group missing');
+  assert.equal(JSON.stringify(p3.boxes), JSON.stringify([1, 0, 0]));
+  assert.ok(ORBITALS.ne.ground.find((g) => g.name === '3p'), 'ground state needs the empty 3p boxes for the comparison');
+  assert.equal(ex.find((g) => g.name === '3s').boxes[0], 0);
+});

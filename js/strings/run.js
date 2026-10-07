@@ -10,8 +10,8 @@ export default {
     'run.obs.title': 'What is observed on I_A',
     'run.obs.1': r`At small $U_2$ no current flows: the electrons do not have enough energy to pass the counter voltage $U_3$.`,
     'run.obs.2': r`Then $I_A$ rises with $U_2$, as long as the electrons only collide elastically.`,
-    'run.obs.3': r`When $U_2$ reaches about $\Delta E/e_0$ the current <strong>drops</strong>: electrons lose their energy in inelastic collisions and cannot pass $U_3$.`,
-    'run.obs.4': r`It rises again and drops again at $2\Delta E/e_0$, $3\Delta E/e_0$, …: a series of peaks, one energy quantum apart.`,
+    'run.obs.3': r`When $U_1+U_2$ reaches about $\Delta E/e_0$ the current <strong>drops</strong>: electrons lose their energy in inelastic collisions and cannot pass $U_3$.`,
+    'run.obs.4': r`It rises again and drops again when $U_1+U_2\approx2\Delta E/e_0$, $3\Delta E/e_0$, …: a series of peaks, one energy quantum apart.`,
     'run.plot.aria': 'Plot of the anode current against the accelerating voltage U2 for the chosen gas. The curve is drawn up to the chosen value of U2; the rest is shown faintly.',
   },
   de: {
@@ -23,8 +23,8 @@ export default {
     'run.obs.title': 'Was an I_A beobachtet wird',
     'run.obs.1': r`Bei kleinem $U_2$ fließt kein Strom: Die Elektronen haben nicht genug Energie, um die Gegenspannung $U_3$ zu überwinden.`,
     'run.obs.2': r`Dann steigt $I_A$ mit $U_2$, solange die Elektronen nur elastisch stoßen.`,
-    'run.obs.3': r`Erreicht $U_2$ etwa $\Delta E/e_0$, <strong>fällt</strong> der Strom: Die Elektronen verlieren ihre Energie in inelastischen Stößen und überwinden $U_3$ nicht.`,
-    'run.obs.4': r`Er steigt wieder und fällt erneut bei $2\Delta E/e_0$, $3\Delta E/e_0$, …: eine Folge von Maxima im Abstand eines Energiequants.`,
+    'run.obs.3': r`Erreicht $U_1+U_2$ etwa $\Delta E/e_0$, <strong>fällt</strong> der Strom: Die Elektronen verlieren ihre Energie in inelastischen Stößen und überwinden $U_3$ nicht.`,
+    'run.obs.4': r`Er steigt wieder und fällt erneut, wenn $U_1+U_2\approx2\Delta E/e_0$, $3\Delta E/e_0$, …: eine Folge von Maxima im Abstand eines Energiequants.`,
     'run.plot.aria': 'Diagramm des Anodenstroms über der Beschleunigungsspannung U2 für das gewählte Gas. Die Kurve ist bis zum gewählten Wert von U2 gezeichnet, der Rest blass.',
   },
 };
