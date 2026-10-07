@@ -9,6 +9,8 @@ export function modelParams(gasId, o = {}) {
     U3: o.U3 ?? d.U3,
     dE: GAS[gasId].dE,
     lambda: lambdaOverL(gasId, o.density ?? d.density),
+    sigma: 0.08 * GAS[gasId].dE, // energy spread of the electrons (eV): rounds the peaks, lifts the minima
+    rise: 0.2,                  // growth of the collected current with U2, per dE
   };
 }
 

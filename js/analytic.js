@@ -90,14 +90,32 @@ export function eventProbabilities(U1, U2, dE, lambda, bins = 300) {
   return P;
 }
 
-// Anode current (relative units) of the real model.
-export function realCurrent({ U1, U2, U3, dE, lambda }) {
-  if (!(lambda > 0) || !Number.isFinite(lambda)) throw new Error('lambda must be a positive finite number');
-  if (!(U2 > 0)) return transmission(U1, U3);
+// Current of the model with sharp electron energies (no smoothing).
+function sharpCurrent({ U1, U2, U3, dE, lambda }) {
+  if (!(U2 > 0)) return transmission(U1 + U2, U3);
   const P = eventProbabilities(U1, U2, dE, lambda);
   let I = 0;
   for (let n = 0; n < P.length; n++) I += P[n] * transmission(U1 + U2 - n * dE, U3);
   return I;
+}
+
+// Anode current (relative units) of the real model. Optional, as in measured curves (default 0 = off):
+//   sigma: spread of the electron energies in eV (Gaussian) - rounds the peaks and lifts the minima;
+//   rise:  growth of the collected current with U2, I -> I * (1 + rise * U2 / dE).
+export function realCurrent({ U1, U2, U3, dE, lambda, sigma = 0, rise = 0 }) {
+  if (!(lambda > 0) || !Number.isFinite(lambda)) throw new Error('lambda must be a positive finite number');
+  let I;
+  if (!(sigma > 0)) I = sharpCurrent({ U1, U2, U3, dE, lambda });
+  else {
+    let s = 0, w = 0;
+    for (let z = -2.5; z <= 2.5001; z += 0.5) {
+      const wk = Math.exp(-z * z / 2);
+      s += wk * sharpCurrent({ U1, U2: U2 + z * sigma, U3, dE, lambda });
+      w += wk;
+    }
+    I = s / w;
+  }
+  return I * (1 + rise * Math.max(U2, 0) / dE);
 }
 export function realCurve(params, U2s) {
   return U2s.map((U2) => realCurrent({ ...params, U2 }));

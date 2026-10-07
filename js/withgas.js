@@ -48,10 +48,8 @@ export function initWithGas() {
     // energy along the gap
     const saw = idealSawtooth(p.U1, U2, p.dE);
     const avg = expectedEnergyProfile({ ...p, U2 });
-    const free = [{ x: 0, E: p.U1 }, { x: 1, E: p.U1 + U2 }];
     const yMax = Math.max(p.U1 + U2, p.dE) * 1.08 + 0.2;
     Plotly.react(eplot, [
-      { x: free.map((q) => q.x), y: free.map((q) => q.E), mode: 'lines', name: t('gas.legend.free'), line: { color: c.grid, width: 2, dash: 'dot' } },
       { x: saw.map((q) => q.x), y: saw.map((q) => q.E), mode: 'lines', name: t('gas.legend.saw'), line: { color: c.muted, width: 2, dash: 'dash' } },
       { x: avg.x, y: avg.E, mode: 'lines', name: t('gas.legend.avg'), line: { color: c.c1, width: 3 } },
     ], baseLayout({

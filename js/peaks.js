@@ -29,7 +29,6 @@ export function initPeaks() {
     const saw = idealSawtooth(p.U1, U2, dE);
     const yMax = Math.max(p.U1 + U2, dE) * 1.08 + 0.2;
     Plotly.react(plot, [
-      { x: [0, 1], y: [p.U1, p.U1 + U2], mode: 'lines', name: t('peaks.legend.free'), line: { color: c.grid, width: 2, dash: 'dot' } },
       { x: saw.map((q) => q.x), y: saw.map((q) => q.E), mode: 'lines', name: t('peaks.legend.saw'), line: { color: c.c1, width: 3 } },
       { x: xs, y: xs.map(() => dE), mode: 'markers+text', name: t('peaks.legend.thr'), text: xs.map((_, i) => String(i + 1)), textposition: 'top center', marker: { size: 9, color: c.c2 } },
     ], baseLayout({
