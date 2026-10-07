@@ -14,6 +14,7 @@ export function initSpacing() {
   const plot = $('delta-plot'), cmpPlot = $('compare-plot'), cmpCap = $('compare-cap');
   const result = $('delta-result'), tbody = $('delta-table').querySelector('tbody');
   let cmpToken = 0;
+  let cmpCache = { key: '', curves: {} };
 
   function extremaOf(res, gas) {
     const e = findExtrema(res.U2, res.IA, EXTREMA_OPTIONS[gas]);
@@ -71,12 +72,18 @@ export function initSpacing() {
     if (!show) return;
     const my = ++cmpToken;
     const base = simParams();
-    const series = [];
+    // Curves only depend on the simulation settings, not on maxima/minima, language or theme.
+    const key = JSON.stringify({ ...base, tempC: 0 });
+    if (cmpCache.key !== key) cmpCache = { key, curves: {} };
     for (const T of COMPARE_TEMPS) {
-      const res = await computeCurve({ ...base, tempC: T });
-      series.push({ T, list: extremaOf(res, 'hg') });
+      if (!cmpCache.curves[T]) {
+        const res = await computeCurve({ ...base, tempC: T }, 'compare');
+        if (my !== cmpToken) return; // superseded while computing
+        cmpCache.curves[T] = res;
+      }
     }
     if (my !== cmpToken) return;
+    const series = COMPARE_TEMPS.map((T) => ({ T, list: extremaOf(cmpCache.curves[T], 'hg') }));
     const c = colors();
     const palette = [c.c1, c.c2, c.c3];
     const traces = series.map((s, i) => {

@@ -48,7 +48,18 @@ test('each gas has exactly one highlighted level, close to the model dE', () => 
   for (const id of ['hg', 'ne']) {
     const hl = LEVELS[id].levels.filter((l) => l.highlight);
     assert.equal(hl.length, 1);
-    assert.close(hl[0].e, GAS[id].dE, 0.1);
+    assert.close(hl[0].e, GAS[id].dE, id === 'hg' ? 0.1 : 0.5);
     assert.ok(hl[0].e < LEVELS[id].ionization);
   }
+});
+
+test('the highlighted Hg level gives the 253.7 nm line', () => {
+  const hl = LEVELS.hg.levels.find((l) => l.highlight);
+  assert.equal(wavelengthNm(hl.e).toFixed(1), '253.7');
+  assert.equal(hl.e.toFixed(2), '4.89');
+});
+
+test('the Ne 2p5 3p group is placed inside its real range (18.4-19.0 eV)', () => {
+  const hl = LEVELS.ne.levels.find((l) => l.highlight);
+  assert.between(hl.e, 18.4, 19.0);
 });

@@ -30,6 +30,7 @@ export default {
     'motion.glow.ne': 'Orange glow: excitation zones (visible light)',
     'motion.glow.hg': 'Violet: excitation zones (UV at 253.7 nm, invisible)',
     'motion.caption': r`Each dot is one simulated electron (blue: slow, red: energy at or above $\Delta E$). The coloured bands show where excitations occur at the chosen $U_2$: they are the luminous layers seen in the neon tube.`,
+    'curve.theory': 'Theory: <a href="https://doi.org/10.1119/1.2174033" target="_blank" rel="noopener">Rapior et al., Am. J. Phys. 74, 423 (2006) ↗</a> — temperature dependence of the curves.',
   },
   de: {
     'curve.title': '3 · Die Kurve',
@@ -60,5 +61,6 @@ export default {
     'motion.glow.ne': 'Orange: Anregungszonen (sichtbares Licht)',
     'motion.glow.hg': 'Violett: Anregungszonen (UV bei 253,7 nm, unsichtbar)',
     'motion.caption': r`Jeder Punkt ist ein simuliertes Elektron (blau: langsam, rot: Energie bei oder über $\Delta E$). Die farbigen Bänder zeigen, wo bei der gewählten Spannung $U_2$ Anregungen stattfinden: Das sind die Leuchtschichten, die man in der Neonröhre sieht.`,
+    'curve.theory': 'Theorie: <a href="https://doi.org/10.1119/1.2174033" target="_blank" rel="noopener">Rapior et al., Am. J. Phys. 74, 423 (2006) ↗</a> — Temperaturabhängigkeit der Kurven.',
   },
 };

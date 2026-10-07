@@ -45,3 +45,18 @@ test('index.html loads no remote scripts or stylesheets', async () => {
   const remote = [...html.matchAll(/<(?:script|link)\b[^>]*\b(?:src|href)="(https?:)?\/\/[^"]*"/g)];
   assert.equal(remote.length, 0, 'remote resources: ' + remote.map((m) => m[0]).join(' | '));
 });
+
+test('content stays in scope: no uncertainty, safety or instrument-handling wording', () => {
+  const banned = /uncertaint|Messunsicherheit|safety|Sicherheit|goggles|Schutzbrille|oscilloscope|Oszilloskop|XY recorder|CAL\/VAR/i;
+  for (const lang of ['en', 'de']) {
+    for (const [k, v] of Object.entries(STRINGS[lang])) assert.ok(!banned.test(v), `${lang}:${k} is out of scope`);
+  }
+});
+
+test('every explanatory section carries a theory link in both languages', () => {
+  for (const lang of ['en', 'de']) {
+    for (const k of ['idea.theory', 'tube.theory', 'curve.theory', 'delta.theory']) {
+      assert.ok(STRINGS[lang][k] && STRINGS[lang][k].includes('<a href="https://'), `${lang}:${k} missing link`);
+    }
+  }
+});

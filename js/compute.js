@@ -1,42 +1,56 @@
-// Runs simulate() in a module Web Worker; falls back to the main thread if workers are unavailable.
+// Runs simulate() in module Web Workers; falls back to the main thread if workers are unavailable.
+// One worker per channel. A new request on a channel cancels the one still running there
+// (the worker is terminated), so quick slider moves never build up a backlog.
 import { simulate } from './montecarlo.js';
-
-let worker = null;
-let failed = false;
-let seq = 0;
-const pending = new Map();
 
 // ?sync in the URL forces the main-thread path (used by the headless smoke test).
 const FORCE_SYNC = typeof location !== 'undefined' && new URLSearchParams(location.search).has('sync');
 
-function getWorker() {
-  if (failed || FORCE_SYNC) return null;
-  if (worker) return worker;
-  try {
-    worker = new Worker(new URL('./worker.js', import.meta.url), { type: 'module' });
-    worker.onmessage = (e) => {
-      const p = pending.get(e.data.id);
-      if (p) { pending.delete(e.data.id); p.resolve(e.data.result); }
-    };
-    worker.onerror = () => {
-      failed = true;
-      worker = null;
-      for (const p of pending.values()) p.fallback();
-      pending.clear();
-    };
-  } catch {
-    failed = true;
-    worker = null;
-  }
-  return worker;
+let failed = false;
+let seq = 0;
+const channels = new Map(); // name -> { worker, pending: Map(id -> {resolve, fallback}) }
+
+function channelFor(name) {
+  if (!channels.has(name)) channels.set(name, { worker: null, pending: new Map() });
+  return channels.get(name);
 }
 
-export function computeCurve(params) {
+function ensureWorker(ch) {
+  if (failed || FORCE_SYNC) return null;
+  if (ch.worker) return ch.worker;
+  try {
+    const w = new Worker(new URL('./worker.js', import.meta.url), { type: 'module' });
+    w.onmessage = (e) => {
+      const p = ch.pending.get(e.data.id);
+      if (p) { ch.pending.delete(e.data.id); p.resolve(e.data.result); }
+    };
+    w.onerror = () => {
+      failed = true;
+      try { w.terminate(); } catch { /* already gone */ }
+      ch.worker = null;
+      for (const p of ch.pending.values()) p.fallback();
+      ch.pending.clear();
+    };
+    ch.worker = w;
+  } catch {
+    failed = true;
+  }
+  return ch.worker;
+}
+
+// Superseded requests never resolve; callers must ignore results of stale requests (token pattern).
+export function computeCurve(params, channel = 'main') {
+  const ch = channelFor(channel);
   return new Promise((resolve) => {
-    const w = getWorker();
+    if (ch.worker && ch.pending.size) { // cancel the superseded computation
+      ch.worker.terminate();
+      ch.worker = null;
+      ch.pending.clear();
+    }
+    const w = ensureWorker(ch);
     if (!w) { resolve(simulate(params)); return; }
     const id = ++seq;
-    pending.set(id, { resolve, fallback: () => resolve(simulate(params)) });
+    ch.pending.set(id, { resolve, fallback: () => resolve(simulate(params)) });
     w.postMessage({ id, params });
   });
 }

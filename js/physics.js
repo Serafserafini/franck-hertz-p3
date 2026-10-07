@@ -53,14 +53,14 @@ export function boltzmannFactor(dE, tempK) {
 
 // Energy levels (eV above ground state) for the level ladder in section 1.
 // Values rounded from NIST ASD; the highlighted level is the one excited in the experiment
-// (Ne: centre of the 2p5 3p group, 18.4-19.8 eV).
+// (Ne: the 2p5 3p group, 18.4-19.0 eV; the model uses dE = 19.0 eV, the observed spacing).
 export const LEVELS = {
   hg: {
     ground: '6 ¹S₀',
     ionization: 10.44,
     levels: [
       { label: '6 ³P₀', e: 4.67 },
-      { label: '6 ³P₁', e: 4.89, highlight: true },
+      { label: '6 ³P₁', e: 4.887, highlight: true },
       { label: '6 ³P₂', e: 5.46 },
       { label: '6 ¹P₁', e: 6.70 },
     ],
@@ -70,7 +70,7 @@ export const LEVELS = {
     ionization: 21.56,
     levels: [
       { label: '2p⁵3s', e: 16.7 },
-      { label: '2p⁵3p', e: 19.0, highlight: true },
+      { label: '2p⁵3p', e: 18.7, highlight: true },
     ],
   },
 };

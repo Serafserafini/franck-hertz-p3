@@ -16,6 +16,7 @@ export default {
     'tube.axis.y': 'Kinetic energy / eV',
     'tube.trace': 'Electron',
     'tube.dE': 'ΔE',
+    'tube.theory': 'Theory: <a href="https://www.nobelprize.org/prizes/physics/1925/franck/lecture/" target="_blank" rel="noopener">Franck’s Nobel lecture (apparatus and results) ↗</a>',
   },
   de: {
     'tube.title': '2 · Die Röhre',
@@ -32,5 +33,6 @@ export default {
     'tube.axis.y': 'Kinetische Energie / eV',
     'tube.trace': 'Elektron',
     'tube.dE': 'ΔE',
+    'tube.theory': 'Theorie: <a href="https://www.nobelprize.org/prizes/physics/1925/franck/lecture/" target="_blank" rel="noopener">Nobelvortrag von Franck (Aufbau und Ergebnisse) ↗</a>',
   },
 };
