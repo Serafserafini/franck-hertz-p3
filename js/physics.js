@@ -30,29 +30,26 @@ export function boltzmannFactor(dE, tempK) {
   return Math.exp(-dE / thermalEnergyEV(tempK));
 }
 
-// Orbital energy levels (eV above the highest occupied orbital) for the ladder in section 1.
-// An effective one-electron picture: the energy of an orbital is the energy needed to lift one electron
-// from the highest occupied orbital into it (NIST ASD, rounded). The three p orbitals are degenerate
-// (deg 3). In the real atom each excited configuration splits into several close levels (for Hg 6s6p:
-// 4.67-6.70 eV); the highlighted orbital carries the level used in the experiment (Hg 6 3P1 4.887 eV;
-// Ne: the 2p5 3p group, 18.4-19.0 eV, while the model uses dE = 19.0 eV, the observed spacing).
+// Energy levels (eV above ground state) for the level ladder in section 1.
+// Values rounded from NIST ASD; the highlighted level is the one excited in the experiment
+// (Ne: the 2p5 3p group, 18.4-19.0 eV; the model uses dE = 19.0 eV, the observed spacing).
 export const LEVELS = {
   hg: {
-    ground: '6s',
-    groundDeg: 1,
+    ground: '6 ¹S₀',
     ionization: 10.44,
     levels: [
-      { label: '6p', deg: 3, e: 4.887, highlight: true },
-      { label: '7s', deg: 1, e: 7.73 },
+      { label: '6 ³P₀', e: 4.67 },
+      { label: '6 ³P₁', e: 4.887, highlight: true },
+      { label: '6 ³P₂', e: 5.46 },
+      { label: '6 ¹P₁', e: 6.70 },
     ],
   },
   ne: {
-    ground: '2p',
-    groundDeg: 3,
+    ground: '2p⁶ ¹S₀',
     ionization: 21.56,
     levels: [
-      { label: '3s', deg: 1, e: 16.7 },
-      { label: '3p', deg: 3, e: 18.7, highlight: true },
+      { label: '2p⁵3s', e: 16.7 },
+      { label: '2p⁵3p', e: 18.7, highlight: true },
     ],
   },
 };

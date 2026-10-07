@@ -93,14 +93,3 @@ test('the Ne excited-state box diagram shows the 3p group that the ladder highli
   assert.ok(ORBITALS.ne.ground.find((g) => g.name === '3p'), 'ground state needs the empty 3p boxes for the comparison');
   assert.equal(ex.find((g) => g.name === '3s').boxes[0], 0);
 });
-
-test('LEVELS lists orbitals with their degeneracy (p orbitals: three)', () => {
-  for (const id of ['hg', 'ne']) {
-    for (const l of LEVELS[id].levels) assert.ok(/^\d[sp]$/.test(l.label), id + ': ' + l.label);
-    const hl = LEVELS[id].levels.find((l) => l.highlight);
-    assert.equal(hl.deg, 3);
-  }
-  assert.equal(LEVELS.hg.groundDeg, 1);
-  assert.equal(LEVELS.ne.groundDeg, 3);
-  assert.ok(LEVELS.hg.levels.every((l) => l.deg === 1 || l.deg === 3));
-});

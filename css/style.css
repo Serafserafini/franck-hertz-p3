@@ -117,4 +117,3 @@ table.data th, table.data td { border-bottom: 1px solid var(--border); padding: 
 
 .scheme .band { opacity: .12; } .scheme .band.z1 { fill: var(--c3); } .scheme .band.z2 { fill: var(--c1); } .scheme .band.z3 { fill: var(--c2); }
 
-.levels .glyph { fill: var(--c1); font-size: 14px; }
