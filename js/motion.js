@@ -3,6 +3,7 @@ import { traceElectrons } from './montecarlo.js';
 import { GAS } from './physics.js';
 import { t } from './i18n.js';
 import { cssVar } from './plotstyle.js';
+import { wrapText } from './dom.js';
 
 const LANES = 12;
 const BINS = 80;
@@ -48,7 +49,7 @@ export function initMotion() {
   function draw() {
     resize();
     const w = canvas.clientWidth, h = canvas.clientHeight;
-    const x0 = 28, x1 = w - 28, y0 = 22, th = h - 46;
+    const x0 = 28, x1 = w - 28, y0 = 22, th = h - 60; // bottom strip holds up to two lines of text
     ctx.clearRect(0, 0, w, h);
     const rgb = state.gas === 'ne' ? '255,120,30' : '150,90,255';
     const bw = (x1 - x0) / BINS;
@@ -78,7 +79,8 @@ export function initMotion() {
     ctx.fillStyle = cssVar('--muted');
     ctx.font = '12px system-ui, sans-serif';
     ctx.textAlign = 'left';
-    ctx.fillText(t(state.gas === 'ne' ? 'motion.glow.ne' : 'motion.glow.hg'), x0 + 2, h - 8);
+    const lines = wrapText((s) => ctx.measureText(s).width, t(state.gas === 'ne' ? 'motion.glow.ne' : 'motion.glow.hg'), x1 - x0 - 4).slice(0, 2);
+    lines.forEach((line, i) => ctx.fillText(line, x0 + 2, h - 8 - (lines.length - 1 - i) * 15));
   }
 
   function tick(ts) {

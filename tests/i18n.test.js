@@ -93,3 +93,26 @@ test('figures, plots and live results are accessible in index.html', async () =>
   const st = doc.getElementById('curve-status');
   assert.ok(st && st.getAttribute('role') === 'status', 'curve-status live region missing');
 });
+
+test('plot axis titles contain no literal underscores', () => {
+  for (const lang of ['en', 'de']) {
+    for (const k of Object.keys(STRINGS[lang]).filter((k) => k.startsWith('curve.axis.') || k.startsWith('delta.axis.'))) {
+      assert.ok(!/_/.test(STRINGS[lang][k]), `${lang}:${k} = ${STRINGS[lang][k]}`);
+    }
+  }
+});
+
+test('explanations name U1 as not simulated and cover both gases in the thermal note', () => {
+  for (const lang of ['en', 'de']) {
+    assert.ok(/U_1/.test(STRINGS[lang]['curve.limits']), lang + ': curve.limits must say what happens to U1');
+    assert.ok(/Ne/.test(STRINGS[lang]['idea.thermal']) && /Hg/.test(STRINGS[lang]['idea.thermal']), lang + ': idea.thermal must cover Hg and Ne');
+  }
+});
+
+test('the curve U3 slider cannot reach 0 and an error region exists', async () => {
+  const html = await (await fetch('../index.html')).text();
+  const doc = new DOMParser().parseFromString(html, 'text/html');
+  assert.ok(parseFloat(doc.getElementById('curve-U3').min) >= 0.1, 'U3 = 0 makes the curve flat');
+  const err = doc.getElementById('curve-error');
+  assert.ok(err && err.getAttribute('role') === 'alert' && err.hasAttribute('hidden'), 'curve-error alert region missing');
+});

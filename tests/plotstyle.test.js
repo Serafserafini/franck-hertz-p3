@@ -10,3 +10,9 @@ test('Plotly separators follow the language (decimal comma in German)', () => {
     assert.equal(baseLayout().separators, '.,');
   } finally { setLang('en'); }
 });
+
+test('legend sits above the plot so it cannot cover the x-axis title on narrow screens', () => {
+  const l = baseLayout();
+  assert.ok(l.legend.y >= 1, 'legend.y = ' + l.legend.y);
+  assert.ok(l.margin.t >= 30, 'top margin must leave room for the legend');
+});

@@ -75,12 +75,17 @@ export function initSpacing() {
     // Curves only depend on the simulation settings, not on maxima/minima, language or theme.
     const key = JSON.stringify({ ...base, tempC: 0 });
     if (cmpCache.key !== key) cmpCache = { key, curves: {} };
-    for (const T of COMPARE_TEMPS) {
-      if (!cmpCache.curves[T]) {
-        const res = await computeCurve({ ...base, tempC: T }, 'compare');
-        if (my !== cmpToken) return; // superseded while computing
-        cmpCache.curves[T] = res;
+    try {
+      for (const T of COMPARE_TEMPS) {
+        if (!cmpCache.curves[T]) {
+          const res = await computeCurve({ ...base, tempC: T }, 'compare');
+          if (my !== cmpToken) return; // superseded while computing
+          cmpCache.curves[T] = res;
+        }
       }
+    } catch {
+      if (my === cmpToken) { cmpPlot.hidden = true; cmpCap.hidden = true; }
+      return;
     }
     if (my !== cmpToken) return;
     const series = COMPARE_TEMPS.map((T) => ({ T, list: extremaOf(cmpCache.curves[T], 'hg') }));

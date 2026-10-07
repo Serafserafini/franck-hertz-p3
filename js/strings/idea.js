@@ -13,7 +13,7 @@ export default {
     'idea.ground': 'ground state',
     'idea.ion': 'ionisation',
     'idea.result': r`$k_BT$ = {kt} eV, so the Boltzmann factor of the highlighted transition is $e^{-\Delta E/k_BT}\approx$ {bf}.`,
-    'idea.thermal': r`At room temperature $k_BT\approx0.025$ eV, about 200 times smaller than $\Delta E$: thermal excitation is completely negligible. Matching $\Delta E$ to the mean thermal energy $\tfrac32k_BT$ would need tens of thousands of kelvin. The atoms must therefore be excited by something else — here by electron impact.`,
+    'idea.thermal': r`At room temperature $k_BT\approx0.025$ eV: about 200 times smaller than $\Delta E$ for Hg and more than 700 times smaller for Ne, so thermal excitation is completely negligible. Matching $\Delta E$ to the mean thermal energy $\tfrac32k_BT$ would need tens of thousands of kelvin. The atoms must therefore be excited by something else — here by electron impact.`,
     'idea.theory': 'Theory: <a href="https://www.nobelprize.org/prizes/physics/1925/franck/lecture/" target="_blank" rel="noopener">Franck’s Nobel lecture ↗</a> · <a href="https://physics.nist.gov/PhysRefData/ASD/levels_form.html" target="_blank" rel="noopener">NIST level data ↗</a>',
   },
   de: {
@@ -28,7 +28,7 @@ export default {
     'idea.ground': 'Grundzustand',
     'idea.ion': 'Ionisation',
     'idea.result': r`$k_BT$ = {kt} eV, der Boltzmann-Faktor des hervorgehobenen Übergangs ist daher $e^{-\Delta E/k_BT}\approx$ {bf}.`,
-    'idea.thermal': r`Bei Raumtemperatur ist $k_BT\approx0{,}025$ eV, etwa 200-mal kleiner als $\Delta E$: thermische Anregung ist völlig vernachlässigbar. Um $\Delta E$ mit der mittleren thermischen Energie $\tfrac32k_BT$ gleichzusetzen, wären einige zehntausend Kelvin nötig. Die Atome müssen also anders angeregt werden — hier durch Elektronenstoß.`,
+    'idea.thermal': r`Bei Raumtemperatur ist $k_BT\approx0{,}025$ eV: etwa 200-mal kleiner als $\Delta E$ bei Hg und mehr als 700-mal kleiner bei Ne, thermische Anregung ist also völlig vernachlässigbar. Um $\Delta E$ mit der mittleren thermischen Energie $\tfrac32k_BT$ gleichzusetzen, wären einige zehntausend Kelvin nötig. Die Atome müssen also anders angeregt werden — hier durch Elektronenstoß.`,
     'idea.theory': 'Theorie: <a href="https://www.nobelprize.org/prizes/physics/1925/franck/lecture/" target="_blank" rel="noopener">Nobelvortrag von Franck ↗</a> · <a href="https://physics.nist.gov/PhysRefData/ASD/levels_form.html" target="_blank" rel="noopener">NIST-Niveaudaten ↗</a>',
   },
 };

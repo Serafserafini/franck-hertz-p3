@@ -2,5 +2,9 @@ import { simulate } from './montecarlo.js';
 
 self.onmessage = (e) => {
   const { id, params } = e.data;
-  self.postMessage({ id, result: simulate(params) });
+  try {
+    self.postMessage({ id, result: simulate(params) });
+  } catch (err) {
+    self.postMessage({ id, error: String((err && err.message) || err) });
+  }
 };

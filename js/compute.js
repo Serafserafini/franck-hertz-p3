@@ -8,7 +8,7 @@ const FORCE_SYNC = typeof location !== 'undefined' && new URLSearchParams(locati
 
 let failed = false;
 let seq = 0;
-const channels = new Map(); // name -> { worker, pending: Map(id -> {resolve, fallback}) }
+const channels = new Map(); // name -> { worker, pending: Map(id -> {resolve, reject, fallback}) }
 
 function channelFor(name) {
   if (!channels.has(name)) channels.set(name, { worker: null, pending: new Map() });
@@ -22,9 +22,11 @@ function ensureWorker(ch) {
     const w = new Worker(new URL('./worker.js', import.meta.url), { type: 'module' });
     w.onmessage = (e) => {
       const p = ch.pending.get(e.data.id);
-      if (p) { ch.pending.delete(e.data.id); p.resolve(e.data.result); }
+      if (!p) return;
+      ch.pending.delete(e.data.id);
+      if (e.data.error) p.reject(new Error(e.data.error)); else p.resolve(e.data.result);
     };
-    w.onerror = () => {
+    w.onerror = () => { // the worker itself broke: redo the pending work on the main thread
       failed = true;
       try { w.terminate(); } catch { /* already gone */ }
       ch.worker = null;
@@ -38,19 +40,24 @@ function ensureWorker(ch) {
   return ch.worker;
 }
 
-// Superseded requests never resolve; callers must ignore results of stale requests (token pattern).
-export function computeCurve(params, channel = 'main') {
+function runSync(params, resolve, reject) {
+  try { resolve(simulate(params)); } catch (e) { reject(e); }
+}
+
+// Superseded requests never settle; callers must ignore results of stale requests (token pattern).
+// A simulation error rejects the promise.
+export function computeCurve(params, channel = 'main', { sync = false } = {}) {
   const ch = channelFor(channel);
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
     if (ch.worker && ch.pending.size) { // cancel the superseded computation
       ch.worker.terminate();
       ch.worker = null;
       ch.pending.clear();
     }
-    const w = ensureWorker(ch);
-    if (!w) { resolve(simulate(params)); return; }
+    const w = sync ? null : ensureWorker(ch);
+    if (!w) { runSync(params, resolve, reject); return; }
     const id = ++seq;
-    ch.pending.set(id, { resolve, fallback: () => resolve(simulate(params)) });
+    ch.pending.set(id, { resolve, reject, fallback: () => runSync(params, resolve, reject) });
     w.postMessage({ id, params });
   });
 }

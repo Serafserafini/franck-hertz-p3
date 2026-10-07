@@ -1,4 +1,4 @@
-import { state, update, subscribe, simParams, SIM_KEYS } from './store.js';
+import { state, update, subscribe, simParams, planRecompute, SIM_KEYS } from './store.js';
 import { computeCurve } from './compute.js';
 import { findExtrema, EXTREMA_OPTIONS } from './analysis.js';
 import { meanFreePath, hgVaporPressure } from './physics.js';
@@ -13,7 +13,9 @@ export function initCurve() {
   const gasSel = $('curve-gas'), tempWrap = $('curve-temp-wrap'), temp = $('curve-temp');
   const U3 = $('curve-U3'), spread = $('curve-spread'), noGas = $('curve-nogas'), probe = $('curve-probe');
   const plot = $('curve-plot'), info = $('curve-info'), busy = $('curve-busy'), status = $('curve-status');
+  const errorBox = $('curve-error');
   let token = 0, timer = 0, clickBound = false;
+  let lastKeys = null; // keys of the curves currently shown (see planRecompute)
 
   function syncControls() {
     const ui = GAS_UI[state.gas];
@@ -43,14 +45,25 @@ export function initCurve() {
   async function recompute() {
     const my = ++token;
     busy.hidden = false;
+    errorBox.hidden = true;
     status.textContent = t('busy');
     const p = simParams();
-    const res = await computeCurve(p);
-    const ref = state.showNoGas ? await computeCurve({ ...p, noGas: true }) : null;
-    if (my !== token) return; // a newer request superseded this one
-    busy.hidden = true;
-    status.textContent = t('curve.status.done');
-    update({ result: { ...res, params: p }, reference: ref });
+    const plan = planRecompute(lastKeys, p, state.showNoGas);
+    try {
+      const res = plan.main ? { ...(await computeCurve(p)), params: p } : state.result;
+      let ref = state.showNoGas ? state.reference : null;
+      if (plan.ref) ref = await computeCurve({ ...p, noGas: true });
+      if (my !== token) return; // a newer request superseded this one
+      lastKeys = plan.keys;
+      busy.hidden = true;
+      status.textContent = t('curve.status.done');
+      update(plan.main ? { result: res, reference: ref } : { reference: ref });
+    } catch {
+      if (my !== token) return;
+      busy.hidden = true;
+      status.textContent = '';
+      errorBox.hidden = false;
+    }
   }
 
   function schedule() {

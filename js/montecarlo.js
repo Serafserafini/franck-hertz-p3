@@ -87,8 +87,8 @@ export function traceElectrons(params, U2, count = 40, excitationSample = 2000) 
   const tracks = [];
   for (let i = 0; i < count; i++) {
     const pts = [];
-    const E = transmit(rng, V, p, lambda, pts, null);
-    tracks.push({ pts, reached: E >= p.U3 });
+    transmit(rng, V, p, lambda, pts, null);
+    tracks.push({ pts });
   }
   const excitations = [];
   for (let i = 0; i < excitationSample; i++) transmit(rng, V, p, lambda, null, excitations);

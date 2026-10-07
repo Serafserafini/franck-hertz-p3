@@ -1,6 +1,6 @@
 import { LEVELS, thermalEnergyEV, wavelengthNm, boltzmannFactor } from './physics.js';
 import { formatSci } from './format.js';
-import { svgEl } from './dom.js';
+import { svgEl, svgText } from './dom.js';
 import { t, num, renderMath } from './i18n.js';
 
 const W = 560, H = 380;
@@ -63,7 +63,7 @@ export function renderLevels(container, gasId, tempK) {
   // thermal energy marker
   const kT = Math.min(thermalEnergyEV(tempK), top);
   svg.append(svgEl('circle', { cx: PAD.l + 34, cy: y(kT), r: 5, class: 'dot' }));
-  svg.append(svgEl('text', { x: PAD.l + 44, y: y(kT) - 8, class: 'small' }, t('idea.kt', { kt: thermalEnergyEV(tempK).toPrecision(2) })));
+  svg.append(svgText({ x: PAD.l + 44, y: y(kT) - 8, class: 'small' }, t('idea.kt', { kt: thermalEnergyEV(tempK).toPrecision(2) })));
 
   container.replaceChildren(svg);
 }

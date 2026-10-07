@@ -8,8 +8,8 @@ export const E_CHARGE = 1.602176634e-19; // C
 // dE: excitation energy (eV); sigma: effective collision cross-section (m^2);
 // pInel: probability that a collision above threshold is inelastic.
 export const GAS = {
-  hg: { id: 'hg', dE: 4.9, sigma: 4e-19, pInel: 0.3, ionization: 10.4 },
-  ne: { id: 'ne', dE: 19.0, sigma: 1e-19, pInel: 0.3, ionization: 21.6 },
+  hg: { id: 'hg', dE: 4.9, sigma: 4e-19, pInel: 0.3 },
+  ne: { id: 'ne', dE: 19.0, sigma: 1e-19, pInel: 0.3 },
 };
 
 // Effective grid spacing G1-G2 (m).
