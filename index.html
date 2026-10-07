@@ -1,31 +1,208 @@
-<!doctype html><meta charset="utf-8"><title>placeholder</title>
-<p data-i18n="site.title"></p>
-<p data-i18n="site.subtitle"></p>
-<p data-i18n="nav.label"></p>
-<p data-i18n="nav.idea"></p>
-<p data-i18n="nav.tube"></p>
-<p data-i18n="nav.curve"></p>
-<p data-i18n="nav.delta"></p>
-<p data-i18n="nav.refs"></p>
-<p data-i18n="lang.label"></p>
-<p data-i18n="ctl.gas"></p>
-<p data-i18n="gas.hg"></p>
-<p data-i18n="gas.ne"></p>
-<p data-i18n="busy"></p>
-<p data-i18n="footer"></p>
-<p data-i18n="noscript"></p>
-<p data-i18n="idea.title"></p>
-<p data-i18n="idea.p1"></p>
-<p data-i18n="idea.p2"></p>
-<p data-i18n="idea.temp"></p>
-<p data-i18n="idea.caption"></p>
-<p data-i18n="idea.arrow"></p>
-<p data-i18n="idea.kt"></p>
-<p data-i18n="idea.ground"></p>
-<p data-i18n="idea.ion"></p>
-<p data-i18n="idea.result"></p>
-<p data-i18n="idea.thermal"></p>
-<p data-i18n="idea.theory"></p>
-<p data-i18n="tube.title"></p>
-<p data-i18n="tube.p1"></p>
-<p data-i18n="tube.hint"></p>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Franck–Hertz (P3)</title>
+<link rel="stylesheet" href="vendor/katex/katex.min.css">
+<link rel="stylesheet" href="css/style.css">
+<script defer src="vendor/plotly/plotly-basic.min.js"></script>
+<script defer src="vendor/katex/katex.min.js"></script>
+<script defer src="vendor/katex/contrib/auto-render.min.js"></script>
+<script type="module" src="js/main.js"></script>
+</head>
+<body>
+<header class="top">
+  <div class="wrap top-inner">
+    <div>
+      <h1 data-i18n="site.title">Franck–Hertz experiment (P3)</h1>
+      <p class="subtitle" data-i18n="site.subtitle"></p>
+    </div>
+    <div class="lang" role="group" data-i18n-aria="lang.label">
+      <button type="button" data-lang="en">EN</button>
+      <button type="button" data-lang="de">DE</button>
+    </div>
+  </div>
+</header>
+
+<div class="wrap layout">
+  <nav class="toc" data-i18n-aria="nav.label">
+    <a href="#idea" data-i18n="nav.idea"></a>
+    <a href="#tube" data-i18n="nav.tube"></a>
+    <a href="#curve" data-i18n="nav.curve"></a>
+    <a href="#delta" data-i18n="nav.delta"></a>
+    <a href="#refs" data-i18n="nav.refs"></a>
+  </nav>
+
+  <main>
+    <noscript><p class="note" data-i18n="noscript">This page needs JavaScript for the interactive tools.</p></noscript>
+
+    <!-- 1 · The idea -->
+    <section id="idea">
+      <h2 data-i18n="idea.title"></h2>
+      <p data-i18n="idea.p1"></p>
+      <p data-i18n="idea.p2"></p>
+      <div class="card">
+        <div class="controls">
+          <label><span data-i18n="ctl.gas"></span>
+            <select id="levels-gas">
+              <option value="hg" data-i18n="gas.hg"></option>
+              <option value="ne" data-i18n="gas.ne"></option>
+            </select>
+          </label>
+          <label class="grow"><span data-i18n="idea.temp"></span> <output id="levels-T-out"></output>
+            <input id="levels-T" type="range" min="2.4" max="4.8" step="0.01" value="2.47">
+          </label>
+        </div>
+        <div id="levels-svg" class="figure" role="img" aria-labelledby="levels-cap"></div>
+        <p id="levels-cap" class="caption" data-i18n="idea.caption"></p>
+        <p id="levels-result" class="result"></p>
+      </div>
+      <p class="note" data-i18n="idea.thermal"></p>
+      <p class="theory" data-i18n="idea.theory"></p>
+    </section>
+
+    <!-- 2 · The tube -->
+    <section id="tube">
+      <h2 data-i18n="tube.title"></h2>
+      <p data-i18n="tube.p1"></p>
+      <svg class="schematic" viewBox="0 0 600 140" role="img" aria-label="Tube: K, G1, G2, A">
+        <rect x="10" y="30" width="580" height="70" rx="35" class="glass"/>
+        <rect x="26" y="48" width="8" height="34" class="electrode"/>
+        <line x1="138" y1="34" x2="138" y2="96" class="grid-el"/>
+        <line x1="462" y1="34" x2="462" y2="96" class="grid-el"/>
+        <rect x="566" y="42" width="8" height="46" class="electrode"/>
+        <g class="sch-label" text-anchor="middle">
+          <text x="30" y="122">K</text><text x="138" y="122">G₁</text>
+          <text x="462" y="122">G₂</text><text x="570" y="122">A</text>
+          <text x="84" y="20">U₁</text><text x="300" y="20">U₂</text><text x="516" y="20">U₃</text>
+        </g>
+        <g class="sch-arrow">
+          <line x1="34" y1="26" x2="134" y2="26"/><line x1="142" y1="26" x2="458" y2="26"/><line x1="466" y1="26" x2="566" y2="26"/>
+        </g>
+      </svg>
+      <div class="card">
+        <div class="controls">
+          <label><span data-i18n="ctl.gas"></span>
+            <select id="tube-gas">
+              <option value="hg" data-i18n="gas.hg"></option>
+              <option value="ne" data-i18n="gas.ne"></option>
+            </select>
+          </label>
+          <label><span data-i18n="tube.U1"></span> <output id="tube-U1-out"></output>
+            <input id="tube-U1" type="range" min="0" max="4.5" step="0.1" value="1">
+          </label>
+          <label><span data-i18n="tube.U2"></span> <output id="tube-U2-out"></output>
+            <input id="tube-U2" type="range" min="0" max="30" step="0.1" value="12">
+          </label>
+          <label><span data-i18n="tube.U3"></span> <output id="tube-U3-out"></output>
+            <input id="tube-U3" type="range" min="0" max="5" step="0.1" value="1.5">
+          </label>
+          <label class="check"><input id="tube-gasOn" type="checkbox" checked> <span data-i18n="tube.gasOn"></span></label>
+        </div>
+        <div id="tube-plot" class="plot short"></div>
+        <p id="tube-result" class="result"></p>
+        <p class="caption" data-i18n="tube.caption"></p>
+      </div>
+      <p class="note" data-i18n="tube.hint"></p>
+    </section>
+
+    <!-- 3 · The curve -->
+    <section id="curve">
+      <h2 data-i18n="curve.title"></h2>
+      <p data-i18n="curve.p1"></p>
+      <div class="card">
+        <div class="controls">
+          <label><span data-i18n="ctl.gas"></span>
+            <select id="curve-gas">
+              <option value="hg" data-i18n="gas.hg"></option>
+              <option value="ne" data-i18n="gas.ne"></option>
+            </select>
+          </label>
+          <label id="curve-temp-wrap"><span data-i18n="curve.temp"></span> <output id="curve-temp-out"></output>
+            <input id="curve-temp" type="range" min="150" max="190" step="1" value="170">
+          </label>
+          <label><span data-i18n="curve.U3"></span> <output id="curve-U3-out"></output>
+            <input id="curve-U3" type="range" min="0" max="5" step="0.1" value="1.5">
+          </label>
+          <label><span data-i18n="curve.spread"></span> <output id="curve-spread-out"></output>
+            <input id="curve-spread" type="range" min="0.05" max="1" step="0.05" value="0.3">
+          </label>
+          <label class="check"><input id="curve-nogas" type="checkbox" checked> <span data-i18n="curve.nogas"></span></label>
+        </div>
+        <p id="curve-info" class="result"></p>
+        <div class="plot-wrap">
+          <div id="curve-plot" class="plot"></div>
+          <span id="curve-busy" class="busy" hidden data-i18n="busy"></span>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3 data-i18n="motion.title"></h3>
+        <div class="controls">
+          <label class="grow"><span data-i18n="curve.probe"></span> <output id="curve-probe-out"></output>
+            <input id="curve-probe" type="range" min="0" max="45" step="0.25" value="20">
+          </label>
+          <button id="motion-toggle" type="button" class="btn"></button>
+        </div>
+        <canvas id="motion-canvas" class="motion" role="img" aria-labelledby="motion-cap"></canvas>
+        <p id="motion-cap" class="caption" data-i18n="motion.caption"></p>
+      </div>
+
+      <h3 data-i18n="curve.look.title"></h3>
+      <ol class="look">
+        <li data-i18n="curve.look.1"></li>
+        <li data-i18n="curve.look.2"></li>
+        <li data-i18n="curve.look.3"></li>
+        <li data-i18n="curve.look.4"></li>
+        <li data-i18n="curve.look.5"></li>
+      </ol>
+      <p class="note" data-i18n="curve.limits"></p>
+    </section>
+
+    <!-- 4 · From the curve to ΔE -->
+    <section id="delta">
+      <h2 data-i18n="delta.title"></h2>
+      <p data-i18n="delta.p1"></p>
+      <div class="card">
+        <div class="controls">
+          <label class="grow"><span data-i18n="delta.contact"></span> <output id="contact-out"></output>
+            <input id="contact" type="range" min="0" max="3" step="0.1" value="1">
+          </label>
+          <label><span data-i18n="delta.kind"></span>
+            <select id="kind">
+              <option value="maxima" data-i18n="delta.maxima"></option>
+              <option value="minima" data-i18n="delta.minima"></option>
+            </select>
+          </label>
+          <label class="check" id="compare-wrap"><input id="compare" type="checkbox"> <span data-i18n="delta.compare"></span></label>
+        </div>
+        <div id="delta-plot" class="plot short"></div>
+        <p id="delta-result" class="result"></p>
+        <table id="delta-table" class="data">
+          <thead><tr><th>n</th><th data-i18n="delta.col.u"></th><th data-i18n="delta.col.d"></th></tr></thead>
+          <tbody></tbody>
+        </table>
+        <div id="compare-plot" class="plot short" hidden></div>
+        <p class="caption" id="compare-cap" data-i18n="delta.compare.caption" hidden></p>
+      </div>
+      <p class="note" data-i18n="delta.p2"></p>
+    </section>
+
+    <!-- 5 · References -->
+    <section id="refs">
+      <h2 data-i18n="refs.title"></h2>
+      <p class="muted" data-i18n="refs.intro"></p>
+      <ol class="refs">
+        <li data-i18n="refs.r1"></li>
+        <li data-i18n="refs.r2"></li>
+        <li data-i18n="refs.r3"></li>
+        <li data-i18n="refs.r4"></li>
+        <li data-i18n="refs.r5"></li>
+      </ol>
+    </section>
+  </main>
+</div>
+<footer class="wrap foot"><p class="muted" data-i18n="footer"></p></footer>
+</body>
+</html>
