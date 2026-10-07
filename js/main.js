@@ -1,5 +1,6 @@
 import { initialLang, setLang } from './i18n.js';
 import { initLevels } from './levels.js';
+import { initTube } from './tube.js';
 
 function boot() {
   setLang(initialLang());
@@ -11,6 +12,7 @@ function boot() {
   });
   // Section modules are initialised here.
   initLevels();
+  initTube();
 }
 
 boot();
