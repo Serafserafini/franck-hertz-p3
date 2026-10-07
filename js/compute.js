@@ -6,8 +6,11 @@ let failed = false;
 let seq = 0;
 const pending = new Map();
 
+// ?sync in the URL forces the main-thread path (used by the headless smoke test).
+const FORCE_SYNC = typeof location !== 'undefined' && new URLSearchParams(location.search).has('sync');
+
 function getWorker() {
-  if (failed) return null;
+  if (failed || FORCE_SYNC) return null;
   if (worker) return worker;
   try {
     worker = new Worker(new URL('./worker.js', import.meta.url), { type: 'module' });
