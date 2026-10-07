@@ -20,6 +20,8 @@ export default {
     'delta.p2': r`<strong>Try this:</strong> move the contact-potential slider (work-function difference between cathode and grid, plus any offset of the electron energies). All extrema shift by the same amount — the positions change, the spacings do not. That is why absolute positions are unreliable and spacings give $\Delta E$. The dotted line has the slope of the model $\Delta E$; compare it with the points.`,
     'delta.compare.caption': 'Spacing between successive maxima or minima for three Hg temperatures. Compare how the spacings behave as n grows and as the temperature changes.',
     'delta.theory': 'Theory: <a href="https://doi.org/10.1119/1.2174033" target="_blank" rel="noopener">Rapior et al., Am. J. Phys. 74, 423 (2006) ↗</a> — behaviour of successive extrema; <a href="https://www.nobelprize.org/prizes/physics/1925/franck/lecture/" target="_blank" rel="noopener">Franck’s Nobel lecture ↗</a>.',
+    'delta.plot.aria': 'Plot of the positions of successive extrema against their number n, with a dotted line of the slope of the model excitation energy. The values are listed in the table below.',
+    'compare.plot.aria': 'Plot of the spacing between successive extrema against n for Hg at 150, 170 and 190 degrees Celsius.',
   },
   de: {
     'delta.title': '4 · Von der Kurve zu ΔE',
@@ -36,9 +38,11 @@ export default {
     'delta.col.u': 'U₂⁽ⁿ⁾ / V',
     'delta.col.d': 'Abstand / V',
     'delta.result': r`Mittlerer Abstand aufeinanderfolgender Extrema: <strong>{d} V</strong>, also $\Delta E=e_0\,\overline{\Delta U_2}\approx$ <strong>{d} eV</strong> (das Modell wurde mit $\Delta E$ = {model} eV gerechnet).`,
-    'delta.none': 'Zu wenige Extrema im Messbereich für einen Abstand.',
+    'delta.none': 'Zu wenige Extrema im simulierten Spannungsbereich für einen Abstand.',
     'delta.p2': r`<strong>Probieren Sie es aus:</strong> Verschieben Sie den Regler für das Kontaktpotential (Austrittsarbeitsdifferenz zwischen Kathode und Gitter, plus ein eventueller Versatz der Elektronenenergien). Alle Extrema verschieben sich um denselben Betrag — die Lagen ändern sich, die Abstände nicht. Deshalb sind absolute Lagen unzuverlässig und erst die Abstände liefern $\Delta E$. Die gepunktete Linie hat die Steigung des Modell-$\Delta E$; vergleichen Sie sie mit den Punkten.`,
     'delta.compare.caption': 'Abstand zwischen aufeinanderfolgenden Maxima bzw. Minima für drei Hg-Temperaturen. Vergleichen Sie, wie sich die Abstände mit wachsendem n und mit der Temperatur verhalten.',
     'delta.theory': 'Theorie: <a href="https://doi.org/10.1119/1.2174033" target="_blank" rel="noopener">Rapior et al., Am. J. Phys. 74, 423 (2006) ↗</a> — Verhalten aufeinanderfolgender Extrema; <a href="https://www.nobelprize.org/prizes/physics/1925/franck/lecture/" target="_blank" rel="noopener">Nobelvortrag von Franck ↗</a>.',
+    'delta.plot.aria': 'Diagramm der Lagen aufeinanderfolgender Extrema über ihrer Nummer n, mit einer gepunkteten Linie mit der Steigung der Modell-Anregungsenergie. Die Werte stehen in der Tabelle darunter.',
+    'compare.plot.aria': 'Diagramm des Abstands aufeinanderfolgender Extrema über n für Hg bei 150, 170 und 190 Grad Celsius.',
   },
 };

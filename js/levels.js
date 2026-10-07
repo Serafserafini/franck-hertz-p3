@@ -1,7 +1,7 @@
 import { LEVELS, thermalEnergyEV, wavelengthNm, boltzmannFactor } from './physics.js';
 import { formatSci } from './format.js';
 import { svgEl } from './dom.js';
-import { t, renderMath } from './i18n.js';
+import { t, num, renderMath } from './i18n.js';
 
 const W = 560, H = 380;
 const PAD = { l: 64, r: 16, t: 16, b: 34 };
@@ -43,12 +43,12 @@ export function renderLevels(container, gasId, tempK) {
   svg.append(svgEl('line', { x1: X_LINE0, y1: y(0), x2: X_LINE1, y2: y(0), class: 'lv' }));
   svg.append(svgEl('text', { x: X_LINE1 + 10, y: y(0) + 4 }, `${data.ground} (${t('idea.ground')})`));
   svg.append(svgEl('line', { x1: X_LINE0, y1: y(data.ionization), x2: X_LINE1, y2: y(data.ionization), class: 'ion' }));
-  svg.append(svgEl('text', { x: X_LINE1 + 10, y: y(data.ionization) + 4, class: 'small' }, `${t('idea.ion')} ${data.ionization} eV`));
+  svg.append(svgEl('text', { x: X_LINE1 + 10, y: y(data.ionization) + 4, class: 'small' }, `${t('idea.ion')} ${num(data.ionization)} eV`));
 
   const labelYs = spread(data.levels.map((l) => y(l.e)), 15);
   data.levels.forEach((l, i) => {
     svg.append(svgEl('line', { x1: X_LINE0, y1: y(l.e), x2: X_LINE1, y2: y(l.e), class: l.highlight ? 'lv hl' : 'lv' }));
-    svg.append(svgEl('text', { x: X_LINE1 + 10, y: labelYs[i] + 4, class: l.highlight ? 'hl-text' : '' }, `${l.label}  ${l.e.toFixed(2)} eV`));
+    svg.append(svgEl('text', { x: X_LINE1 + 10, y: labelYs[i] + 4, class: l.highlight ? 'hl-text' : '' }, `${l.label}  ${num(l.e, 2)} eV`));
   });
 
   // transition arrow with its energy and wavelength

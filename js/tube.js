@@ -1,6 +1,6 @@
 import { idealProfile, POS } from './profile.js';
 import { GAS } from './physics.js';
-import { t, renderMath } from './i18n.js';
+import { t, num, renderMath } from './i18n.js';
 import { baseLayout, plotConfig, colors } from './plotstyle.js';
 
 // Slider ranges per gas (U1 max stays below the Hg threshold of 4.9 V).
@@ -23,9 +23,9 @@ export function initTube() {
   function draw() {
     const gasId = gasSel.value;
     const v = { U1: +U1.value, U2: +U2.value, U3: +U3.value };
-    $('tube-U1-out').textContent = `${v.U1.toFixed(1)} V`;
-    $('tube-U2-out').textContent = `${v.U2.toFixed(1)} V`;
-    $('tube-U3-out').textContent = `${v.U3.toFixed(1)} V`;
+    $('tube-U1-out').textContent = `${num(v.U1, 1)} V`;
+    $('tube-U2-out').textContent = `${num(v.U2, 1)} V`;
+    $('tube-U3-out').textContent = `${num(v.U3, 1)} V`;
 
     const prof = idealProfile({ ...v, gasId, gasOn: gasOn.checked });
     const c = colors();

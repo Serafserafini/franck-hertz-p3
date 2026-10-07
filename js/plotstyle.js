@@ -1,4 +1,5 @@
-// Shared Plotly styling that follows the CSS variables (light/dark mode).
+// Shared Plotly styling that follows the CSS variables (light/dark mode) and the language.
+import { getLang } from './i18n.js';
 
 export function cssVar(name) {
   return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
@@ -22,6 +23,7 @@ export function baseLayout(extra = {}) {
     xaxis: { gridcolor: c.grid, zerolinecolor: c.grid, linecolor: c.muted, ...xaxis },
     yaxis: { gridcolor: c.grid, zerolinecolor: c.grid, linecolor: c.muted, ...yaxis },
     legend: { orientation: 'h', y: -0.22 },
+    separators: getLang() === 'de' ? ',.' : '.,', // decimal comma in German
     ...rest,
   };
 }

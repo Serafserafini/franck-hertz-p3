@@ -2,7 +2,7 @@ import { state, update, subscribe, simParams } from './store.js';
 import { findExtrema, spacings, mean, EXTREMA_OPTIONS } from './analysis.js';
 import { computeCurve } from './compute.js';
 import { GAS } from './physics.js';
-import { t, renderMath } from './i18n.js';
+import { t, num, renderMath } from './i18n.js';
 import { baseLayout, plotConfig, colors } from './plotstyle.js';
 
 const COMPARE_TEMPS = [150, 170, 190];
@@ -23,7 +23,7 @@ export function initSpacing() {
 
   function syncControls() {
     contact.value = state.contact;
-    contactOut.textContent = `${(+state.contact).toFixed(1)} V`;
+    contactOut.textContent = `${num(state.contact, 1)} V`;
     kind.value = state.extremaKind;
     compare.checked = state.compare;
     compareWrap.hidden = state.gas !== 'hg';
@@ -51,7 +51,7 @@ export function initSpacing() {
 
     tbody.replaceChildren(...list.map((m, i) => {
       const tr = document.createElement('tr');
-      tr.innerHTML = `<td>${i + 1}</td><td>${m.x.toFixed(2)}</td><td>${i ? sp[i - 1].toFixed(2) : '–'}</td>`;
+      tr.innerHTML = `<td>${i + 1}</td><td>${num(m.x, 2)}</td><td>${i ? num(sp[i - 1], 2) : '–'}</td>`;
       return tr;
     }));
 

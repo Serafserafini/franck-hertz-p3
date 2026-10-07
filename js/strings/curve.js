@@ -31,6 +31,8 @@ export default {
     'motion.glow.hg': 'Violet: excitation zones (UV at 253.7 nm, invisible)',
     'motion.caption': r`Each dot is one simulated electron (blue: slow, red: energy at or above $\Delta E$). The coloured bands show where excitations occur at the chosen $U_2$: they are the luminous layers seen in the neon tube.`,
     'curve.theory': 'Theory: <a href="https://doi.org/10.1119/1.2174033" target="_blank" rel="noopener">Rapior et al., Am. J. Phys. 74, 423 (2006) ↗</a> — temperature dependence of the curves.',
+    'curve.plot.aria': 'Plot of the simulated anode current versus the accelerating voltage U2, with maxima and minima marked and optionally the curve without gas. The same extrema are listed in the table in section 4.',
+    'curve.status.done': 'Curve updated.',
   },
   de: {
     'curve.title': '3 · Die Kurve',
@@ -62,5 +64,7 @@ export default {
     'motion.glow.hg': 'Violett: Anregungszonen (UV bei 253,7 nm, unsichtbar)',
     'motion.caption': r`Jeder Punkt ist ein simuliertes Elektron (blau: langsam, rot: Energie bei oder über $\Delta E$). Die farbigen Bänder zeigen, wo bei der gewählten Spannung $U_2$ Anregungen stattfinden: Das sind die Leuchtschichten, die man in der Neonröhre sieht.`,
     'curve.theory': 'Theorie: <a href="https://doi.org/10.1119/1.2174033" target="_blank" rel="noopener">Rapior et al., Am. J. Phys. 74, 423 (2006) ↗</a> — Temperaturabhängigkeit der Kurven.',
+    'curve.plot.aria': 'Diagramm des simulierten Anodenstroms über der Beschleunigungsspannung U2, mit markierten Maxima und Minima und wahlweise der Kurve ohne Gas. Dieselben Extrema stehen in der Tabelle in Abschnitt 4.',
+    'curve.status.done': 'Kurve aktualisiert.',
   },
 };

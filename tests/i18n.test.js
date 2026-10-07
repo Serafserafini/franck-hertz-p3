@@ -1,6 +1,6 @@
 import { test, assert } from './harness.js';
 import { STRINGS } from '../js/strings.js';
-import { t } from '../js/i18n.js';
+import { t, num, setLang } from '../js/i18n.js';
 
 const keysOf = (o) => Object.keys(o).sort();
 const placeholders = (s) => [...s.matchAll(/\{(\w+)\}/g)].map((m) => m[1]).sort().join(',');
@@ -59,4 +59,37 @@ test('every explanatory section carries a theory link in both languages', () => 
       assert.ok(STRINGS[lang][k] && STRINGS[lang][k].includes('<a href="https://'), `${lang}:${k} missing link`);
     }
   }
+});
+
+test('German output uses decimal commas for numbers passed to t() and num()', () => {
+  try {
+    setLang('de');
+    assert.ok(t('curve.info.hg', { T: 170, p: '817', lam: '18.7' }).includes('18,7'));
+    assert.equal(num(4.956, 2), '4,96');
+    setLang('en');
+    assert.ok(t('curve.info.hg', { T: 170, p: '817', lam: '18.7' }).includes('18.7'));
+    assert.equal(num(4.956, 2), '4.96');
+  } finally { setLang('en'); }
+});
+
+test('German wording of the empty-spacing hint does not call the sweep a measurement', () => {
+  assert.ok(!/Messbereich/.test(STRINGS.de['delta.none']));
+});
+
+test('figures, plots and live results are accessible in index.html', async () => {
+  const html = await (await fetch('../index.html')).text();
+  const doc = new DOMParser().parseFromString(html, 'text/html');
+  const named = (el) => el.hasAttribute('data-i18n-aria') || el.hasAttribute('aria-labelledby');
+  const svg = doc.querySelector('svg.schematic');
+  assert.ok(svg && named(svg) && !/aria-label="[A-Za-z]/.test(svg.outerHTML.slice(0, 120)), 'schematic needs a translated name');
+  for (const id of ['tube-plot', 'curve-plot', 'delta-plot', 'compare-plot']) {
+    const el = doc.getElementById(id);
+    assert.ok(el && el.getAttribute('role') === 'img' && el.hasAttribute('data-i18n-aria'), id + ' needs role=img and a translated name');
+  }
+  assert.ok(named(doc.getElementById('motion-canvas')), 'canvas needs a name');
+  for (const id of ['tube-result', 'delta-result', 'levels-result', 'curve-info']) {
+    assert.equal(doc.getElementById(id).getAttribute('aria-live'), 'polite', id + ' must be a polite live region');
+  }
+  const st = doc.getElementById('curve-status');
+  assert.ok(st && st.getAttribute('role') === 'status', 'curve-status live region missing');
 });

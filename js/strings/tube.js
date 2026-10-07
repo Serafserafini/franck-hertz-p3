@@ -17,6 +17,8 @@ export default {
     'tube.trace': 'Electron',
     'tube.dE': 'ΔE',
     'tube.theory': 'Theory: <a href="https://www.nobelprize.org/prizes/physics/1925/franck/lecture/" target="_blank" rel="noopener">Franck’s Nobel lecture (apparatus and results) ↗</a>',
+    'tube.schematic.aria': 'Schematic of the tube: cathode K, grids G1 and G2 and anode A, with the voltages U1 between K and G1, U2 between G1 and G2 and U3 between G2 and A.',
+    'tube.plot.aria': 'Plot of the kinetic energy of one electron along the tube from K to A for the chosen voltages. The text below the plot states whether it reaches the anode.',
   },
   de: {
     'tube.title': '2 · Die Röhre',
@@ -34,5 +36,7 @@ export default {
     'tube.trace': 'Elektron',
     'tube.dE': 'ΔE',
     'tube.theory': 'Theorie: <a href="https://www.nobelprize.org/prizes/physics/1925/franck/lecture/" target="_blank" rel="noopener">Nobelvortrag von Franck (Aufbau und Ergebnisse) ↗</a>',
+    'tube.schematic.aria': 'Schema der Röhre: Kathode K, Gitter G1 und G2 und Anode A, mit den Spannungen U1 zwischen K und G1, U2 zwischen G1 und G2 und U3 zwischen G2 und A.',
+    'tube.plot.aria': 'Diagramm der kinetischen Energie eines Elektrons entlang der Röhre von K nach A für die gewählten Spannungen. Der Text unter dem Diagramm gibt an, ob es die Anode erreicht.',
   },
 };

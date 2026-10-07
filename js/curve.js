@@ -2,7 +2,7 @@ import { state, update, subscribe, simParams, SIM_KEYS } from './store.js';
 import { computeCurve } from './compute.js';
 import { findExtrema, EXTREMA_OPTIONS } from './analysis.js';
 import { meanFreePath, hgVaporPressure } from './physics.js';
-import { t, renderMath } from './i18n.js';
+import { t, num, renderMath } from './i18n.js';
 import { baseLayout, plotConfig, colors } from './plotstyle.js';
 
 // Per-gas defaults for the U3 and probe sliders.
@@ -12,7 +12,7 @@ export function initCurve() {
   const $ = (id) => document.getElementById(id);
   const gasSel = $('curve-gas'), tempWrap = $('curve-temp-wrap'), temp = $('curve-temp');
   const U3 = $('curve-U3'), spread = $('curve-spread'), noGas = $('curve-nogas'), probe = $('curve-probe');
-  const plot = $('curve-plot'), info = $('curve-info'), busy = $('curve-busy');
+  const plot = $('curve-plot'), info = $('curve-info'), busy = $('curve-busy'), status = $('curve-status');
   let token = 0, timer = 0, clickBound = false;
 
   function syncControls() {
@@ -23,9 +23,9 @@ export function initCurve() {
     temp.value = state.tempC; U3.value = state.U3; spread.value = state.spread;
     noGas.checked = state.showNoGas; probe.value = state.probeU2;
     $('curve-temp-out').textContent = `${state.tempC} °C`;
-    $('curve-U3-out').textContent = `${(+state.U3).toFixed(1)} V`;
-    $('curve-spread-out').textContent = `${(+state.spread).toFixed(2)} eV`;
-    $('curve-probe-out').textContent = `${(+state.probeU2).toFixed(2)} V`;
+    $('curve-U3-out').textContent = `${num(state.U3, 1)} V`;
+    $('curve-spread-out').textContent = `${num(state.spread, 2)} eV`;
+    $('curve-probe-out').textContent = `${num(state.probeU2, 2)} V`;
   }
 
   function updateInfo() {
@@ -43,11 +43,13 @@ export function initCurve() {
   async function recompute() {
     const my = ++token;
     busy.hidden = false;
+    status.textContent = t('busy');
     const p = simParams();
     const res = await computeCurve(p);
     const ref = state.showNoGas ? await computeCurve({ ...p, noGas: true }) : null;
     if (my !== token) return; // a newer request superseded this one
     busy.hidden = true;
+    status.textContent = t('curve.status.done');
     update({ result: { ...res, params: p }, reference: ref });
   }
 

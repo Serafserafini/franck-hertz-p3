@@ -7,3 +7,8 @@ export function formatSci(x) {
   const [m, e] = x.toExponential(1).split('e');
   return `${m}×10<sup>${String(parseInt(e, 10)).replace('-', '−')}</sup>`;
 }
+
+// German decimal comma: "4.96" -> "4,96" (only plain decimals: URLs, "Fig. 3" and DOIs such as 10.1119/1.2174033 stay intact).
+export function localizeNumber(text, lang) {
+  return lang === 'de' ? text.replace(/(?<![\d/.])(\d+)\.(\d+)(?![\d/])/g, '$1,$2') : text;
+}

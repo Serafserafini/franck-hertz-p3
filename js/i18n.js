@@ -1,4 +1,5 @@
 import { STRINGS } from './strings.js';
+import { localizeNumber } from './format.js';
 
 const KEY = 'fh-lang';
 let lang = 'en';
@@ -21,7 +22,13 @@ export function getLang() { return lang; }
 export function t(key, vars) {
   const s = (STRINGS[lang] && STRINGS[lang][key]) ?? STRINGS.en[key] ?? key;
   if (!vars) return s;
-  return s.replace(/\{(\w+)\}/g, (m, k) => (k in vars ? vars[k] : m));
+  return s.replace(/\{(\w+)\}/g, (m, k) => (k in vars ? localizeNumber(String(vars[k]), lang) : m));
+}
+
+// Number formatted for the current language: num(4.956, 2) -> "4.96" (EN) / "4,96" (DE).
+export function num(x, digits) {
+  const s = digits === undefined ? String(x) : Number(x).toFixed(digits);
+  return localizeNumber(s, lang);
 }
 
 export function renderMath(root = document.body) {
