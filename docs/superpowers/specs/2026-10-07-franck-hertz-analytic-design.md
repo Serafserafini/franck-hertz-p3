@@ -47,31 +47,33 @@ Collision as soon as `E = ΔE`. Collision positions: `x_n = (n·ΔE − U1)/U2` 
 `T(E) = 1 − √(U3/E)` for `E > U3`, else 0 (isotropic scattering assumption; the same assumption makes real maxima rounded and the no-gas curve a smooth rise).
 
 ### 4.3 Real model with gas
-After crossing the threshold an electron excites after an additional exponential path with mean `λ`. With `d1 = (ΔE − U1)/U2` and `d = ΔE/U2`, the `n`-th excitation position is `S_n = d1 + (n−1)·d + G_n`, `G_n ~ Erlang(n, λ)`. Last excitation at `y`, residual `r = 1 − y`: survival `σ(r) = 1` if `r ≤ d`, else `exp(−(r − d)/λ)`. No excitation at all: `P0 = 1` if `d1 ≥ 1`, else `exp(−(1 − d1)/λ)`.
+Energy bookkeeping: after `n` collisions `E(x) = U1 + U2·x − n·ΔE`, so the `n`-th collision can only happen at `x ≥ x_n` (the fixed ideal thresholds) and, once eligible, happens after an exponential path of mean `λ` (in units of `L`):
 
-`I_A(U2) = P0·T(U1+U2) + Σ_n ∫ f_n(y) · σ(1−y) · T(U2·(1−y)) dy`
+`S_n = max(S_{n−1}, x_n) + Exp(λ)`, `S_0 = 0`.
 
-with `f_n` the shifted Erlang density, evaluated exactly per bin from the Erlang CDF `F_n(s) = 1 − e^{−s/λ} Σ_{k<n} (s/λ)^k/k!` (300 bins; probabilities sum to 1 up to rounding). `n ≤ ⌊1/d⌋ + 2`.
+The number of collisions `N` in the gap has `P(N ≥ n) = P(S_n ≤ 1) =: C_n`, so `P(N = n) = C_n − C_{n+1}` (`C_0 = 1`). The final energy depends only on `N`: `E_f = U1 + U2 − N·ΔE`. Therefore
 
-Expected excitation density (glow): `u(y) = Σ_n f_n(y)`.
+`I_A(U2) = Σ_n P(N = n) · T(U1 + U2 − n·ΔE)`, with `T(E) = 1 − √(U3/E)` for `E > U3`, else 0.
+
+The distribution of `S_n` is computed exactly by a linear recursion on 300 position bins (a discrete renewal equation with an exponential kernel, `O(bins)` per collision order). Glow density: `u(x) = Σ_n p_n(x)`. Expected energy profile: `Ē(x) = U1 + U2·x − ΔE·Σ_n P(S_n ≤ x)`.
 
 ### 4.4 Minima
-Fraction of electrons that pass the `n`-th threshold zone without exciting: `q_n = exp(−(1 − x_n)/λ)` (the "slip-through" fraction shown in section 10). Together with the spread of the last-collision position it sets the floor of the minima; both depend only on `λ`, i.e. on gas pressure.
+Minima are not zero because electrons do not collide as soon as they are eligible: the fraction that misses at least one of the possible collisions is `1 − C_m` (`m` = number of thresholds in the gap). It grows with `λ`, i.e. as the gas density falls. For the last zone the chance of not exciting before G₂ is about `exp(−(1 − x_m)/λ)`.
 
 ### 4.5 Gas density
-Hg: `λ(T) = λ170 · p(170 °C)/p(T)` with `p(T)` from `10^(10.05 − 3163/T)` Pa and `λ170 = 0.03` (units of `L`), so `λ ≈ 0.065` at 150 °C and `0.015` at 190 °C. Ne: `λ = 0.03 · (10 hPa / p)` with `p` slider 5–20 hPa. `λ170 = 0.03` is a tuning constant, not data (open item).
+`λ = 0.08` at 170 °C (Hg) / 10 hPa (Ne): `λ(T) = 0.08·p(170 °C)/p(T)` for Hg (`≈ 0.17` at 150 °C, `≈ 0.04` at 190 °C), `λ(p) = 0.08·10 hPa/p` for Ne. A tuning constant, not data.
 
 ### 4.6 Deterministic animation
-Electron `j` of `N` uses delays `e_k(j) = −λ·ln(1 − frac(0.5 + j·α_k))`, with fixed irrational `α_k` (square roots of primes). Marginals are exponential, no random numbers are drawn, results are reproducible.
+Electron `j` of `N` draws the delay of its `k`-th collision from the quantile `frac(0.5 + (j+1)·α_k)` of the exponential distribution, with `α_k` the square roots of the first primes. No random numbers are used; results are reproducible.
 
-### 4.7 Numerical check (prototype, planning time)
-With `ΔE = 4.9`, `U1 = 1`, `U3 = 1.5`: `λ = 0.01` gives peaks 5.0 V apart (grid 0.25 V) and minima ≈ 0; `λ = 0.04` gives 5 peaks, spacing drifting 5.0 → 6.25 V and minima rising to ≈ 0.2; `λ = 0.08/0.18` gives 3/2 peaks and higher floors. The spacing drift at large `λ` is a real broadening effect; the page says so.
+### 4.7 Numerical check (planning time)
+`ΔE = 4.9`, `U1 = 1`, `U3 = 1.5`: peak spacing stays 4.75–5.0 V (grid 0.25 V) for every `λ` from 0.01 to 0.2; minima rise with `λ` (about 0 at `λ = 0.01`, 0.02–0.27 at `λ = 0.08`, 0.14–0.55 at `λ = 0.2`); the probabilities `P(N = n)` sum to 1. (An earlier version of this section used a renewal model that restarted from zero energy after each collision; it was wrong and made the spacing drift.)
 
 ## 5. Architecture
 
 Pure modules (no DOM), unit-tested in headless Chrome as before:
 - `physics.js` — constants, `GAS {dE}`, `LEVELS`, orbital configurations, vapour pressure, `lambdaOverL(gasId, density)`.
-- `analytic.js` — `idealCurrent`, `idealProfile` points, `noGasCurrent`, `realCurrent`, `realCurve`, `excitationDensity`, `slipThrough`, `quantileElectrons`.
+- `analytic.js` — `thresholds`, `idealCurrent`, `idealSawtooth`, `noGasCurrent`, `eventProbabilities`, `realCurrent`, `realCurve`, `missedFraction`, `excitationDensity`, `expectedEnergyProfile`, `quantileElectrons`, `positionAlong`, `noGasPath`.
 - `profile.js` — existing ideal profile (kept), extended with the expected-energy curve of the real model.
 - `analysis.js`, `format.js`, `strings*.js`, `i18n.js`, `dom.js`, `plotstyle.js` — kept (strings rewritten).
 

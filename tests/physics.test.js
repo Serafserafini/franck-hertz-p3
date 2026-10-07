@@ -1,6 +1,7 @@
 import { test, assert } from './harness.js';
 import {
   GAS, LEVELS, hgVaporPressure, meanFreePath, thermalEnergyEV, wavelengthNm, boltzmannFactor,
+  LAMBDA_REF, lambdaOverL, DEFAULTS, RANGES, ORBITALS,
 } from '../js/physics.js';
 
 test('Hg vapour pressure is in the table range at 150 and 190 degC', () => {
@@ -62,4 +63,42 @@ test('the highlighted Hg level gives the 253.7 nm line', () => {
 test('the Ne 2p5 3p group is placed inside its real range (18.4-19.0 eV)', () => {
   const hl = LEVELS.ne.levels.find((l) => l.highlight);
   assert.between(hl.e, 18.4, 19.0);
+});
+
+test('lambdaOverL is the reference value at 170 degC (Hg) and 10 hPa (Ne)', () => {
+  assert.close(lambdaOverL('hg', 170), LAMBDA_REF, 1e-12);
+  assert.close(lambdaOverL('ne', 10), LAMBDA_REF, 1e-12);
+});
+
+test('lambdaOverL shrinks with Hg temperature and with Ne pressure', () => {
+  assert.ok(lambdaOverL('hg', 150) > lambdaOverL('hg', 170));
+  assert.ok(lambdaOverL('hg', 170) > lambdaOverL('hg', 190));
+  assert.close(lambdaOverL('ne', 20), LAMBDA_REF / 2, 1e-12);
+});
+
+test('lambdaOverL rejects unknown gases and non-positive Ne pressure', () => {
+  let n = 0;
+  try { lambdaOverL('xx', 1); } catch { n++; }
+  try { lambdaOverL('ne', 0); } catch { n++; }
+  try { lambdaOverL('ne', -3); } catch { n++; }
+  assert.equal(n, 3);
+});
+
+test('defaults lie inside the slider ranges and U1 stays below dE', () => {
+  for (const id of ['hg', 'ne']) {
+    for (const k of ['U1', 'U2', 'U3', 'density']) {
+      const [lo, hi, step] = RANGES[id][k];
+      assert.between(DEFAULTS[id][k], lo, hi, `${id}.${k}`);
+      assert.ok(step > 0);
+    }
+    assert.ok(RANGES[id].U1[1] < GAS[id].dE, id + ': U1 max must stay below dE');
+  }
+});
+
+test('ground and excited orbital diagrams hold the same number of electrons', () => {
+  const count = (groups) => groups.reduce((s, g) => s + g.boxes.reduce((a, b) => a + (b === 3 ? 2 : b === 0 ? 0 : 1), 0), 0);
+  for (const id of ['hg', 'ne']) {
+    assert.equal(count(ORBITALS[id].ground), count(ORBITALS[id].excited), id);
+    assert.ok(count(ORBITALS[id].ground) > 0);
+  }
 });
