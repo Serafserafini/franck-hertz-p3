@@ -4,7 +4,7 @@ import { svgEl, svgText } from './dom.js';
 import { t, num, renderMath } from './i18n.js';
 import { state, subscribe } from './store.js';
 import { makeSlider } from './controls.js';
-import { renderOrbitals } from './orbitals.js';
+import { renderTerms } from './terms.js';
 
 const W = 640, H = 380;
 const PAD = { l: 64, r: 16, t: 16, b: 34 };
@@ -73,22 +73,24 @@ export function renderLevels(container, gasId, tempK) {
 
 export function initLevels() {
   const fig = document.getElementById('levels-svg');
-  const orb = document.getElementById('orbitals-svg');
+  const terms = document.getElementById('terms-svg');
   const res = document.getElementById('levels-result');
   const slider = makeSlider('levels-T', (v) => `${Math.round(Math.pow(10, v))} K`, draw);
+
+  function drawTerms() { renderTerms(terms); }
 
   function draw() {
     const gasId = state.gas;
     const tempK = Math.pow(10, slider.value);
     slider.refresh();
     renderLevels(fig, gasId, tempK);
-    renderOrbitals(orb, gasId);
     const hl = LEVELS[gasId].levels.find((l) => l.highlight);
     res.innerHTML = t('idea.result', {
       kt: thermalEnergyEV(tempK).toPrecision(2),
       bf: formatSci(boltzmannFactor(hl.e, tempK)),
     });
     renderMath(res);
+    drawTerms();
   }
 
   subscribe((keys) => { if (keys.includes('gas')) draw(); });

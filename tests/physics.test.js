@@ -1,7 +1,7 @@
 import { test, assert } from './harness.js';
 import {
   GAS, LEVELS, hgVaporPressure, thermalEnergyEV, wavelengthNm, boltzmannFactor,
-  LAMBDA_REF, lambdaOverL, DEFAULTS, RANGES, ORBITALS,
+  LAMBDA_REF, lambdaOverL, DEFAULTS, RANGES,
 } from '../js/physics.js';
 
 test('Hg vapour pressure is in the table range at 150 and 190 degC', () => {
@@ -75,21 +75,4 @@ test('defaults lie inside the slider ranges and U1 stays below dE', () => {
     }
     assert.ok(RANGES[id].U1[1] < GAS[id].dE, id + ': U1 max must stay below dE');
   }
-});
-
-test('ground and excited orbital diagrams hold the same number of electrons', () => {
-  const count = (groups) => groups.reduce((s, g) => s + g.boxes.reduce((a, b) => a + (b === 3 ? 2 : b === 0 ? 0 : 1), 0), 0);
-  for (const id of ['hg', 'ne']) {
-    assert.equal(count(ORBITALS[id].ground), count(ORBITALS[id].excited), id);
-    assert.ok(count(ORBITALS[id].ground) > 0);
-  }
-});
-
-test('the Ne excited-state box diagram shows the 3p group that the ladder highlights', () => {
-  const ex = ORBITALS.ne.excited;
-  const p3 = ex.find((g) => g.name === '3p');
-  assert.ok(p3, '3p group missing');
-  assert.equal(JSON.stringify(p3.boxes), JSON.stringify([1, 0, 0]));
-  assert.ok(ORBITALS.ne.ground.find((g) => g.name === '3p'), 'ground state needs the empty 3p boxes for the comparison');
-  assert.equal(ex.find((g) => g.name === '3s').boxes[0], 0);
 });

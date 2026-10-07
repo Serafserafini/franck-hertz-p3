@@ -1,6 +1,6 @@
 import { test, assert } from './harness.js';
 import { renderLevels } from '../js/levels.js';
-import { renderOrbitals } from '../js/orbitals.js';
+import { renderTerms } from '../js/terms.js';
 import { setLang } from '../js/i18n.js';
 
 function textOf(render, gasId, ...rest) {
@@ -36,16 +36,13 @@ test('the thermal marker uses a subscript tspan, not a literal underscore', () =
   assert.ok(box.querySelector('tspan'));
 });
 
-test('orbital diagram: two columns, one box per orbital slot and spin arrows', () => {
+test('term diagram compares H (three degenerate p boxes, one electron) with the Hg 6s6p levels', () => {
   const box = document.createElement('div');
-  renderOrbitals(box, 'hg');
-  const rects = box.querySelectorAll('rect.box');
-  assert.equal(rects.length, 2 * (1 + 3)); // ground and excited: 6s (1 box) + 6p (3 boxes)
-  assert.ok(box.textContent.includes('6s') && box.textContent.includes('6p'));
-  assert.ok(/↑/.test(box.textContent));
-  const ne = document.createElement('div');
-  renderOrbitals(ne, 'ne');
-  assert.equal(ne.querySelectorAll('rect.box').length, 2 * (3 + 1 + 3)); // 2p, 3s, 3p
+  renderTerms(box);
+  assert.equal(box.querySelectorAll('rect.box').length, 3 + 1); // H: px, py, pz; Hg: 6s2 box
+  const txt = box.textContent;
+  for (const s of ['¹S₀', '¹P₁', '³P₀', '³P₁', '³P₂', '4.9 eV']) assert.ok(txt.includes(s), s);
+  assert.equal(box.querySelectorAll('line.level.hl').length, 1, 'only 3P1 is highlighted');
 });
 
 function ktBar(gas, T) {

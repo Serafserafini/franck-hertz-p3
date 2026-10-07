@@ -71,7 +71,7 @@ test('German wording of the empty-spacing hint does not call the sweep a measure
 test('figures, plots, canvases and live results are accessible in index.html', async () => {
   const html = await (await fetch('../index.html')).text();
   const doc = new DOMParser().parseFromString(html, 'text/html');
-  for (const id of ['levels-svg', 'orbitals-svg', 'scheme-svg', 'run-plot', 'nogas-plot', 'cmp-plot', 'gas-plot',
+  for (const id of ['levels-svg', 'terms-svg', 'scheme-svg', 'run-plot', 'nogas-plot', 'cmp-plot', 'gas-plot',
     'gas-energy-plot', 'peaks-plot', 'peaks-curve-plot', 'minima-plot']) {
     const el = doc.getElementById(id);
     assert.ok(el && el.getAttribute('role') === 'img' && el.hasAttribute('data-i18n-aria'), id + ' needs role=img and a translated name');
@@ -114,7 +114,7 @@ test('the page has all eleven sections and the gas selector', async () => {
 
 test('no random numbers are used anywhere in js/', async () => {
   const files = ['physics', 'analytic', 'params', 'analysis', 'format', 'i18n', 'dom', 'plotstyle', 'store', 'controls',
-    'gapcanvas', 'levels', 'orbitals', 'schematic', 'sweep', 'nogas', 'withgas', 'peaks', 'glow', 'minima', 'main'];
+    'gapcanvas', 'levels', 'terms', 'schematic', 'sweep', 'nogas', 'withgas', 'peaks', 'glow', 'minima', 'main'];
   for (const f of files) {
     const res = await fetch(`../js/${f}.js`);
     if (!res.ok) continue; // modules are added task by task

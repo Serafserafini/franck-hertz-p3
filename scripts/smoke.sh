@@ -20,7 +20,7 @@ for lang in en de; do
   check "[$lang] <html lang> is $lang" "grep -q '<html lang=\"$lang\"' $TMP/$lang.html"
   check "[$lang] at least eight Plotly plots rendered" "[ \$(grep -o 'js-plotly-plot' $TMP/$lang.html | wc -l) -ge 8 ]"
   check "[$lang] level ladder SVG present" "grep -q '<svg[^>]*class=\"levels\"' $TMP/$lang.html"
-  check "[$lang] orbital diagram present" "grep -q '<svg[^>]*class=\"orb\"' $TMP/$lang.html"
+  check "[$lang] term diagram present" "grep -q '<svg[^>]*class=\"terms\"' $TMP/$lang.html"
   check "[$lang] tube scheme present" "grep -q '<svg[^>]*class=\"scheme\"' $TMP/$lang.html"
   check "[$lang] peaks table filled" "[ \$(grep -o '<tr><td>' $TMP/$lang.html | wc -l) -ge 4 ]"
   check "[$lang] KaTeX rendered" "grep -q 'class=\"katex\"' $TMP/$lang.html"

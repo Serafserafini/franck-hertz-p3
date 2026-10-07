@@ -79,15 +79,3 @@ export const RANGES = {
   hg: { U1: [0, 4.5, 0.1], U2: [0, 45, 0.25], U3: [0.5, 5, 0.1], density: [150, 190, 1] },
   ne: { U1: [0, 18, 0.5], U2: [0, 90, 0.5], U3: [0.5, 15, 0.5], density: [5, 20, 0.5] },
 };
-
-// Valence orbitals for the box diagrams. Box codes: 0 empty, 1 spin up, 2 spin down, 3 paired.
-export const ORBITALS = {
-  hg: {
-    ground: [{ name: '6s', boxes: [3] }, { name: '6p', boxes: [0, 0, 0] }],
-    excited: [{ name: '6s', boxes: [1] }, { name: '6p', boxes: [1, 0, 0] }], // 6 3P1: parallel spins
-  },
-  ne: {
-    ground: [{ name: '2p', boxes: [3, 3, 3] }, { name: '3s', boxes: [0] }, { name: '3p', boxes: [0, 0, 0] }],
-    excited: [{ name: '2p', boxes: [3, 3, 1] }, { name: '3s', boxes: [0] }, { name: '3p', boxes: [1, 0, 0] }], // the 2p5 3p group is the one highlighted in the ladder
-  },
-};

@@ -104,10 +104,17 @@ table.data th, table.data td { border-bottom: 1px solid var(--border); padding: 
 .scheme .glass { fill: none; stroke: var(--muted); stroke-width: 2; }
 .scheme .electrode { fill: var(--fg); }
 .scheme .grid-el { stroke: var(--fg); stroke-width: 2; stroke-dasharray: 4 3; }
-.orb text { fill: var(--fg); font: 14px system-ui, sans-serif; }
-.orb .box { fill: none; stroke: var(--fg); stroke-width: 1.5; }
-.orb .small { fill: var(--muted); font-size: 12px; }
-.orb .arrow { fill: var(--c1); font-size: 18px; }
+.terms text { fill: var(--fg); font: 14px system-ui, sans-serif; }
+.terms .head { font-weight: 600; font-size: 15px; }
+.terms .small { fill: var(--muted); font-size: 12px; }
+.terms .box { fill: none; stroke: var(--fg); stroke-width: 1.5; }
+.terms .arrow { fill: var(--c1); font-size: 18px; }
+.terms .level { stroke: var(--fg); stroke-width: 2; }
+.terms .level.hl { stroke: var(--c1); stroke-width: 3; }
+.terms .lead, .terms .sep { stroke: var(--muted); stroke-width: 1; }
+.terms .hl-text { fill: var(--c1); font-weight: 600; }
+.terms .arrow-line { stroke: var(--c1); stroke-width: 2; }
+.terms .arrow-head { fill: var(--c1); }
 @media (max-width: 860px) {
   .cards3 { grid-template-columns: minmax(0, 1fr); }
   .gasbar { top: 41px; }

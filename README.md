@@ -1,6 +1,6 @@
 # Franck–Hertz (P3) — interactive introduction
 
-Bilingual (EN/DE) static page that explains the Franck–Hertz experiment with closed-form theory (no Monte Carlo): levels and orbitals, tube and potentials, the experiment, the I_A(U₂) curve without and with gas, why there are several peaks, the glowing stripes and why the minima do not reach zero.
+Bilingual (EN/DE) static page that explains the Franck–Hertz experiment with closed-form theory (no Monte Carlo): levels and term schemes (H vs Hg), tube and potentials, the experiment, the I_A(U₂) curve without and with gas, why there are several peaks, the glowing stripes and why the minima do not reach zero.
 
 ## Run
 ```bash
